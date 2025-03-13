@@ -1,0 +1,50 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu&display=swap');
+@import "tailwindcss";
+
+
+
+.font-urdu {
+  font-family: 'Noto Nastaliq Urdu', serif;
+  font-size: 1.1rem;
+}
+
+.react-select__option {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+  }
+
+
+  @layer components {
+    datalist {
+      @apply mt-1 border border-gray-200 rounded-lg;
+    }
+  
+    datalist option {
+      @apply px-4 py-2 text-sm;
+    }
+  
+    datalist option:hover {
+      @apply bg-purple-50;
+    }
+  }
+  
+  /* Animation styles */
+  @layer utilities {
+    @keyframes fade-in {
+      from { opacity: 0; transform: translateY(-5px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  
+    .animate-fade-in {
+      animation: fade-in 0.2s ease-out;
+    }
+  }
+
+  .badge {
+    padding: 0.25rem 0.5rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    display: inline-block;
+  }
