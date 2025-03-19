@@ -654,12 +654,167 @@ const PatientSearch = () => {
     setPatient(selectedPatient); // Set the selected patient
   };
 
+  // const submitConsultation = async () => {
+  //   if (!patient) {
+  //     alert("Please search for a patient first.");
+  //     return;
+  //   }
+
+  //   setLoading(true);
+  //   try {
+  //     // Step 1: Create Consultation
+  //     const consultationRes = await axios.post(
+  //       "https://patient-management-backend-nine.vercel.app/api/consultations",
+  //       { patient_id: patient.id, doctor_name: "Dr. Abdul Rauf" }
+  //     );
+  //     const consultationId = consultationRes.data.id;
+
+  //     // Step 2: Execute All API Calls in Parallel
+  //     const apiCalls = [
+  //       // Submit Symptoms
+  //       axios.post(
+  //         `https://patient-management-backend-nine.vercel.app/api/consultations/${consultationId}/symptoms`,
+  //         {
+  //           patient_id: patient.id,
+  //           symptom_ids: selectedSymptoms.map((s) => s.value),
+  //         }
+  //       ),
+
+  //       // Submit Medicines
+  //       axios.post(
+  //         "https://patient-management-backend-nine.vercel.app/api/prescriptions",
+  //         {
+  //           consultation_id: consultationId,
+  //           patient_id: patient.id,
+  //           medicines: selectedMedicines.map((med) => ({
+  //             medicine_id: med.medicine_id,
+  //             dosage_en: med.dosage_en,
+  //             dosage_urdu: med.dosage_urdu,
+  //             frequency_en: med.frequency_en,
+  //             frequency_urdu: med.frequency_urdu,
+  //             duration_en: med.duration_en,
+  //             duration_urdu: med.duration_urdu,
+  //             instructions_en: med.instructions_en,
+  //             instructions_urdu: med.instructions_urdu,
+  //           })),
+  //         }
+  //       ),
+
+  //       // Submit Examination
+  //       axios.post(
+  //         "https://patient-management-backend-nine.vercel.app/api/examination",
+  //         {
+  //           consultation_id: consultationId,
+  //           patient_id: patient.id,
+  //           motor_function: neuroExamData.motor_function || "",
+  //           muscle_tone: neuroExamData.muscle_tone || "",
+  //           muscle_strength: neuroExamData.muscle_strength || "",
+  //           straight_leg_raise_test: neuroExamData.straight_leg_raise_test,
+  //           deep_tendon_reflexes: neuroExamData.deep_tendon_reflexes || "",
+  //           plantar_reflex: neuroExamData.plantar_reflex || "",
+  //           pupillary_reaction: neuroExamData.pupillary_reaction || "",
+  //           speech_assessment: neuroExamData.speech_assessment || "",
+  //           gait_assessment: neuroExamData.gait_assessment || "",
+  //           coordination: neuroExamData.coordination || "",
+  //           sensory_examination: neuroExamData.sensory_examination || "",
+  //           cranial_nerves: neuroExamData.cranial_nerves || "",
+  //           mental_status: neuroExamData.mental_status || "",
+  //           cerebellar_function: neuroExamData.cerebellar_function || "",
+  //           muscle_wasting: neuroExamData.muscle_wasting || "",
+  //           abnormal_movements: neuroExamData.abnormal_movements || "",
+  //           romberg_test: neuroExamData.romberg_test || "",
+  //           nystagmus: neuroExamData.nystagmus || "",
+  //           fundoscopy: neuroExamData.fundoscopy || "",
+  //           diagnosis: neuroExamData.diagnosis || "",
+  //           pain_sensation: !!neuroExamData.pain_sensation,
+  //           vibration_sense: !!neuroExamData.vibration_sense,
+  //           proprioception: !!neuroExamData.proprioception,
+  //           temperature_sensation: !!neuroExamData.temperature_sensation,
+  //           brudzinski_sign: !!neuroExamData.brudzinski_sign,
+  //           kernig_sign: !!neuroExamData.kernig_sign,
+  //           facial_sensation: !!neuroExamData.facial_sensation,
+  //           swallowing_function: !!neuroExamData.swallowing_function,
+  //         }
+  //       ),
+  //     ];
+
+  //     // Submit Tests in Parallel
+  //     const testPromises = selectedTests.map(async (testName) => {
+  //       let test = tests.find((t) => t.test_name === testName);
+  //       if (!test) {
+  //         const testResponse = await axios.post(
+  //           "https://patient-management-backend-nine.vercel.app/api/tests",
+  //           { test_name: testName, test_notes: "Optional test notes" }
+  //         );
+  //         test = testResponse.data;
+  //         setTests((prevTests) => [...prevTests, test]);
+  //       }
+
+  //       return axios.post(
+  //         "https://patient-management-backend-nine.vercel.app/api/tests/assign",
+  //         { test_id: test.id, consultation_id: consultationId }
+  //       );
+  //     });
+
+  //     // Add test requests to API call list
+  //     apiCalls.push(...testPromises);
+
+  //     // Submit Follow-Up
+  //     if (selectedDuration) {
+  //       apiCalls.push(
+  //         axios.post(
+  //           `https://patient-management-backend-nine.vercel.app/api/followups/consultations/${consultationId}/followups`,
+  //           {
+  //             follow_up_date: followUpDate.toISOString().split("T")[0],
+  //             notes: followUpNotes || "عام چیک اپ",
+  //             duration_days: selectedDuration,
+  //           }
+  //         )
+  //       );
+  //     }
+
+  //     // Execute all API calls in parallel
+  //     await Promise.allSettled(apiCalls);
+
+  //     // Show success message
+  //     toast.success("Consultation added successfully! 🎉", {
+  //       position: "top-right",
+  //       autoClose: 2000,
+  //     });
+
+  //     // Reset state
+  //     setFollowUpDate(null);
+  //     setFollowUpNotes("");
+  //     setSelectedDuration(null);
+
+  //     setTimeout(() => {
+  //       handlePrint(); // Open print dialog first
+  //     }, 500);
+
+  //     // Step 8: **Navigate to Home Page After Printing**
+  //     setTimeout(() => {
+  //       navigate("/");
+  //       window.location.reload(); // Ensures page updates
+  //     }, 3000);
+  //   } catch (error) {
+  //     console.error(
+  //       "Error submitting consultation",
+  //       error.response?.data || error.message
+  //     );
+  //     alert("An error occurred while saving the consultation.");
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+
+  
+  
   const submitConsultation = async () => {
     if (!patient) {
       alert("Please search for a patient first.");
       return;
     }
-
+  
     setLoading(true);
     try {
       // Step 1: Create Consultation
@@ -668,8 +823,44 @@ const PatientSearch = () => {
         { patient_id: patient.id, doctor_name: "Dr. Abdul Rauf" }
       );
       const consultationId = consultationRes.data.id;
-
-      // Step 2: Execute All API Calls in Parallel
+  
+      // Step 2: Prepare Test Data and Create New Tests in Parallel
+      const existingTestNames = new Set(tests.map((t) => t.test_name));
+      const newTests = selectedTests.filter((testName) => !existingTestNames.has(testName));
+  
+      const testCreationPromises = newTests.map((testName) =>
+        axios.post("https://patient-management-backend-nine.vercel.app/api/tests", {
+          test_name: testName,
+          test_notes: "Optional test notes",
+        })
+      );
+  
+      const testCreationResults = await Promise.allSettled(testCreationPromises);
+      const createdTests = testCreationResults
+        .filter((result) => result.status === "fulfilled")
+        .map((result) => result.value.data);
+  
+      // Update local tests state with newly created tests
+      if (createdTests.length > 0) {
+        setTests((prevTests) => [...prevTests, ...createdTests]);
+      }
+  
+      // Map all selected tests to their IDs (existing + newly created)
+      const testIds = selectedTests.map((testName) => {
+        const test = tests.find((t) => t.test_name === testName) ||
+                     createdTests.find((t) => t.test_name === testName);
+        return test.id;
+      });
+  
+      // Step 3: Prepare Test Assignment Promises
+      const testAssignmentPromises = testIds.map((testId) =>
+        axios.post("https://patient-management-backend-nine.vercel.app/api/tests/assign", {
+          test_id: testId,
+          consultation_id: consultationId,
+        })
+      );
+  
+      // Step 4: Execute All API Calls in Parallel
       const apiCalls = [
         // Submit Symptoms
         axios.post(
@@ -679,7 +870,7 @@ const PatientSearch = () => {
             symptom_ids: selectedSymptoms.map((s) => s.value),
           }
         ),
-
+  
         // Submit Medicines
         axios.post(
           "https://patient-management-backend-nine.vercel.app/api/prescriptions",
@@ -699,7 +890,7 @@ const PatientSearch = () => {
             })),
           }
         ),
-
+  
         // Submit Examination
         axios.post(
           "https://patient-management-backend-nine.vercel.app/api/examination",
@@ -709,7 +900,7 @@ const PatientSearch = () => {
             motor_function: neuroExamData.motor_function || "",
             muscle_tone: neuroExamData.muscle_tone || "",
             muscle_strength: neuroExamData.muscle_strength || "",
-            straight_leg_raise_test: neuroExamData.straight_leg_raise_test,
+            straight_leg_raise_test: neuroExamData.straight_leg_raise_test || "",
             deep_tendon_reflexes: neuroExamData.deep_tendon_reflexes || "",
             plantar_reflex: neuroExamData.plantar_reflex || "",
             pupillary_reaction: neuroExamData.pupillary_reaction || "",
@@ -736,30 +927,12 @@ const PatientSearch = () => {
             swallowing_function: !!neuroExamData.swallowing_function,
           }
         ),
+  
+        // Add Test Assignments
+        ...testAssignmentPromises,
       ];
-
-      // Submit Tests in Parallel
-      const testPromises = selectedTests.map(async (testName) => {
-        let test = tests.find((t) => t.test_name === testName);
-        if (!test) {
-          const testResponse = await axios.post(
-            "https://patient-management-backend-nine.vercel.app/api/tests",
-            { test_name: testName, test_notes: "Optional test notes" }
-          );
-          test = testResponse.data;
-          setTests((prevTests) => [...prevTests, test]);
-        }
-
-        return axios.post(
-          "https://patient-management-backend-nine.vercel.app/api/tests/assign",
-          { test_id: test.id, consultation_id: consultationId }
-        );
-      });
-
-      // Add test requests to API call list
-      apiCalls.push(...testPromises);
-
-      // Submit Follow-Up
+  
+      // Submit Follow-Up (if applicable)
       if (selectedDuration) {
         apiCalls.push(
           axios.post(
@@ -772,41 +945,42 @@ const PatientSearch = () => {
           )
         );
       }
-
-      // Execute all API calls in parallel
-      await Promise.allSettled(apiCalls);
-
-      // Show success message
+  
+      // Step 5: Execute All API Calls in Parallel
+      const results = await Promise.allSettled(apiCalls);
+  
+      // Check for failed requests
+      const failedCalls = results.filter((r) => r.status === "rejected");
+      if (failedCalls.length > 0) {
+        console.error("Some API calls failed:", failedCalls.map((r) => r.reason));
+        throw new Error("Partial submission failure");
+      }
+  
+      // Step 6: Success Handling
       toast.success("Consultation added successfully! 🎉", {
         position: "top-right",
         autoClose: 2000,
       });
-
+  
       // Reset state
       setFollowUpDate(null);
       setFollowUpNotes("");
       setSelectedDuration(null);
-
-      setTimeout(() => {
-        handlePrint(); // Open print dialog first
-      }, 500);
-
-      // Step 8: **Navigate to Home Page After Printing**
+  
+      // Step 7: Print and Navigate
+      handlePrint(); 
       setTimeout(() => {
         navigate("/");
-        window.location.reload(); // Ensures page updates
-      }, 3000);
+        window.location.reload(); 
+      }, 1000); 
+  
     } catch (error) {
-      console.error(
-        "Error submitting consultation",
-        error.response?.data || error.message
-      );
+      console.error("Error submitting consultation:", error.response?.data || error.message);
       alert("An error occurred while saving the consultation.");
     } finally {
       setLoading(false);
     }
   };
-
   const MEDICINE_DEFAULTS = {
     Tablet: {
       dosage_en: "1",
