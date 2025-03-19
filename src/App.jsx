@@ -155,22 +155,24 @@ const PatientSearch = () => {
     }),
   };
 
+  //   
+
+  // Fetch symptoms and medicines on load
+
+  
   const handlePrint = () => {
     const printContent = document.getElementById("consultation-content");
     if (!printContent) {
       alert("No consultation data to print");
       return;
     }
-
-    const printWindow = window.open(
-      "https://paitient-prescription-frontend.vercel.app",
-      "_blank"
-    );
+  
+    const printWindow = window.open("", "_blank");
     if (!printWindow) {
       alert("Pop-up blocked! Allow pop-ups for this site.");
       return;
     }
-
+  
     printWindow.document.write(`
       <html>
         <head>
@@ -179,41 +181,46 @@ const PatientSearch = () => {
             @import url('https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu&display=swap');
             body {
               font-family: 'Inter', sans-serif;
-              margin: 20mm 8mm 15mm 12mm;
+              margin: 20mm 15mm;
               color: #374151;
               font-size: 11px;
-              line-height: 1.4;
+              line-height: 1.6;
             }
   
             .prescription-container {
               display: grid;
-              grid-template-columns: 
-                minmax(30mm, 1fr) 
-               minmax(40mm, 2.5fr) 
-                minmax(30mm, 1fr);
+              grid-template-columns: 2fr 1fr;
               gap: 6mm;
               margin-top: 5mm;
             }
   
-            .column {
-              padding: 2mm;
-              border-right: 3px solid #000000;
+            .patient-table {
+              width: 100%;
+              border-collapse: collapse;
+              margin-bottom: 5mm;
+              background: #f8fafc;
+              border: 1px solid #e2e8f0;
             }
   
-            .patient-info {
-              display: grid;
-              grid-template-columns: repeat(4, 1fr);
-              gap: 15mm;
-              margin-bottom: 5mm;
-              padding: 2mm;
+            .patient-table th,
+            .patient-table td {
+              padding: 3mm 2mm;
+              border: 1px solid #e2e8f0;
+              text-align: left;
+            }
+  
+            .patient-table th {
+              background: #e2e8f0;
+              font-weight: 600;
+              width: 25%;
             }
   
             .section-title {
               font-weight: 600;
-              color: #000000;
+              color: #1e40af;
               padding-bottom: 2mm;
               margin-bottom: 3mm;
-              border-bottom: 1px solid #2e3033;
+              border-bottom: 2px solid #1e40af;
             }
   
             .medicine-table {
@@ -227,6 +234,8 @@ const PatientSearch = () => {
               text-align: left;
               font-weight: 600;
               font-size: 12px;
+              background: #eff6ff;
+              border-bottom: 2px solid #1e40af;
             }
   
             .medicine-table td {
@@ -236,28 +245,23 @@ const PatientSearch = () => {
               font-family: 'Noto Nastaliq Urdu', serif;
             }
   
-            .test-list {
-              list-style: none;
-              padding: 0;
-              margin: 0;
+            .clinical-section {
+              margin-bottom: 6mm;
+              padding: 2mm;
+              background: #f8fafc;
+              border-radius: 4px;
+              border: 1px solid #e2e8f0;
             }
   
-            .test-list li {
-              padding: 1.5mm 0;
-              border-bottom: 1px solid #e5e7eb;
-              list-style-type: disc;
+            .clinical-paragraph {
+              margin: 3mm 0;
+              text-align: justify;
+              color: #475569;
             }
   
-            .exam-table {
-              width: 100%;
-              border-collapse: collapse;
-            }
-
-  
-            .exam-table td {
-              padding: 2mm 1mm;
-              border-bottom: 1px solid #e5e7eb;
-              font-size: 10px;
+            .clinical-paragraph strong {
+              color: #1e293b;
+              margin-right: 1mm;
             }
   
             .follow-up-section {
@@ -265,104 +269,76 @@ const PatientSearch = () => {
               padding: 3mm;
               background: #f0fdfa;
               border-radius: 4px;
+              border: 1px solid #ccfbf1;
             }
   
             .urdu-date {
               font-family: 'Noto Nastaliq Urdu', serif;
               direction: rtl;
-              margin-left: 5px;
               color: #4b5563;
             }
   
-            
-              @media print {
-                @page {
-                  margin: 0 !important; /* Remove browser defaults */
-                }
-  
-                body {
-                  margin: 30mm 5mm !important;
-                }
-  
-                .print-container {
-                  margin: 0;
-                  width: 100vw !important;
-                }
-                  .section-title {
+            @media print {
+              @page {
+                margin: 0 !important;
+              }
+              body {
+                margin: 30mm 5mm !important;
+              }
+              .section-title {
                 color: #1e3a8a !important;
               }
-              }
+            }
           </style>
         </head>
         <body>
-        <div style="height: 30mm"></div>
-          <div class="patient-info">
-            <div><strong>Mobile#:</strong> ${patient?.mobile || "-"}</div>
-            <div><strong>Name:</strong> ${patient?.name || "-"}</div>
-            <div><strong>Age/Sex:</strong> ${patient?.age || "-"}/${
-      patient?.gender || "-"
-    }</div>
-            <div>
-  <strong>Checkup Date:</strong> ${
-    patient?.checkup_date
-      ? new Date(patient.checkup_date).toLocaleDateString("en-UK")
-      : "-"
-  }
-</div>
-
-          </div>
+          <div style="height: 30mm"></div>
+          <table class="patient-table">
+            <thead>
+              <tr>
+                <th>Patient Name</th>
+                <th>Mobile #</th>
+                <th>Age/Sex</th>
+                <th>Checkup Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>${patient?.name || "-"}</td>
+                <td>${patient?.mobile || "-"}</td>
+                <td>${patient?.age || "-"}/${patient?.gender || "-"}</td>
+                <td>${
+                  patient?.checkup_date
+                    ? new Date(patient.checkup_date).toLocaleDateString("en-UK")
+                    : "-"
+                }</td>
+              </tr>
+            </tbody>
+          </table>
   
           <div class="prescription-container">
-            <!-- Tests & Symptoms Column -->
-            <div class="column">
-              <div class="section-title">TESTS & SYMPTOMS</div>
-              <ul class="test-list">
-                ${selectedTests
-                  .map(
-                    (test) => `
-                  <li>${test}</li>
-                `
-                  )
-                  .join("")}
-              </ul>
-              <h3>Symptoms</h3>
-              <ul class="test-list">
-              ${selectedSymptoms
-                .map(
-                  (s) => `
-                <li>${s.label}</li> 
-              `
-                )
-                .join("")}
-              </ul>
-            </div>
-  
             <!-- Medicines Column -->
-            <div class="column">
+            <div class="column" style="border-right: 2px solid #1e40af;">
               <div class="section-title">PRESCRIPTION</div>
               <table class="medicine-table">
                 <thead>
                   <tr>
-                    <th>Medicine</th>
-                    <th style="width: 15%">Frequency</th>
+                    <th style="width: 25%">Medicine</th>
+                    <th style="width: 25%">Frequency</th>
                     <th style="width: 15%">Dosage</th>
                     <th style="width: 20%">Duration</th>
-                    <th style="width: 20%">Instructions</th>
                   </tr>
                 </thead>
                 <tbody>
                   ${selectedMedicines
                     .map((med) => {
-                      const medicineData = medicines.find(
-                        (m) => m.value === med.medicine_id
-                      );
+                      const medicineData = medicines.find((m) => m.value === med.medicine_id);
                       return `
                         <tr>
                           <td>${medicineData?.label || "-"}</td>
                           <td>${med.frequency_urdu || "-"}</td>
                           <td>${med.dosage_urdu || "-"}</td>
                           <td>${med.duration_urdu || "-"}</td>
-                          <td>${med.instructions_urdu || "-"}</td>
                         </tr>
                       `;
                     })
@@ -371,66 +347,78 @@ const PatientSearch = () => {
               </table>
             </div>
   
-            <!-- Examination Column -->
+            <!-- Clinical Findings Column -->
             <div class="column">
-              <div class="section-title">EXAMINATION</div>
-              <table class="exam-table">
-  ${[
-    { label: "Motor Function", key: "motor_function" },
-    { label: "Muscle Tone", key: "muscle_tone" },
-    { label: "Muscle Strength", key: "muscle_strength" },
-    { label: "Straight Leg Test", key: "straight_leg_raise_test" },
-    { label: "Reflexes", key: "deep_tendon_reflexes" },
-    { label: "Gait", key: "gait_assessment" },
-    { label: "Plantars", key: "plantar_reflex" },
-    { label: "Pupils", key: "pupillary_reaction" },
-    { label: "Speech Assessment", key: "speech_assessment" },
-    { label: "Coordination", key: "coordination" },
-    { label: "Sensory Examination", key: "sensory_examination" },
-    { label: "Cranial Nerves", key: "cranial_nerves" },
-    { label: "Mental Status", key: "mental_status" },
-    { label: "Cerebellar Function", key: "cerebellar_function" },
-    { label: "Muscle Wasting", key: "muscle_wasting" },
-    { label: "Abnormal Movements", key: "abnormal_movements" },
-    { label: "Romberg", key: "romberg_test" },
-    { label: "Nystagmus", key: "nystagmus" },
-    { label: "Fundoscopy", key: "fundoscopy" },
-    { label: "Sensation", key: "pain_sensation", type: "check" },
-    { label: "Vibration Sense", key: "vibration_sense", type: "check" },
-    { label: "Proprioception", key: "proprioception", type: "check" },
-    {
-      label: "Temperature Sensation",
-      key: "temperature_sensation",
-      type: "check",
-    },
-    { label: "Brudzinski Sign", key: "brudzinski_sign", type: "check" },
-    { label: "Kernig Sign", key: "kernig_sign", type: "check" },
-    { label: "Facial Sensation", key: "facial_sensation", type: "check" },
-    { label: "Swallowing Function", key: "swallowing_function", type: "check" },
-    { label: "Diagnosis", key: "diagnosis" },
-  ]
-    .filter(({ key }) => {
-      const value = neuroExamData[key];
-      return (
-        value !== undefined &&
-        value !== null &&
-        (typeof value !== "string" || value.trim() !== "")
-      );
-    })
-    .map(({ label, key, type }) => {
-      const value = neuroExamData[key];
-      const displayValue =
-        type === "check" ? (value ? "✓" : "✗") : value || "-";
-
-      return `
-        <tr>
-          <td><strong>${label}:</strong></td>
-          <td>${displayValue}</td>
-        </tr>
-      `;
-    })
-    .join("")}
-</table>
+              <div class="section-title">CLINICAL FINDINGS</div>
+              <div class="clinical-section">
+                <div class="clinical-paragraph">
+                  <strong>Symptoms:</strong>
+                  ${
+                    selectedSymptoms.length > 0
+                      ? selectedSymptoms.map((s) => s.label).join(", ") + "."
+                      : "No symptoms noted."
+                  }
+                </div>
+  
+                <div class="clinical-paragraph">
+                  <strong>Recommended Tests:</strong>
+                  ${
+                    selectedTests.length > 0
+                      ? selectedTests.join(", ") + "."
+                      : "No tests recommended."
+                  }
+                </div>
+  
+                <div class="clinical-paragraph">
+                  <strong>Examination:</strong>
+                  ${
+                    [
+                      { label: "Motor Function", key: "motor_function" },
+                      { label: "Muscle Tone", key: "muscle_tone" },
+                      { label: "Muscle Strength", key: "muscle_strength" },
+                      { label: "Straight Leg Test", key: "straight_leg_raise_test" },
+                      { label: "Reflexes", key: "deep_tendon_reflexes" },
+                      { label: "Gait", key: "gait_assessment" },
+                      { label: "Plantars", key: "plantar_reflex" },
+                      { label: "Pupils", key: "pupillary_reaction" },
+                      { label: "Speech", key: "speech_assessment" },
+                      { label: "Coordination", key: "coordination" },
+                      { label: "Sensory Exam", key: "sensory_examination" },
+                      { label: "Cranial Nerves", key: "cranial_nerves" },
+                      { label: "Mental Status", key: "mental_status" },
+                      { label: "Cerebellar Function", key: "cerebellar_function" },
+                      { label: "Muscle Wasting", key: "muscle_wasting" },
+                      { label: "Abnormal Movements", key: "abnormal_movements" },
+                      { label: "Romberg Test", key: "romberg_test" },
+                      { label: "Nystagmus", key: "nystagmus" },
+                      { label: "Fundoscopy", key: "fundoscopy" },
+                      { label: "Sensation", key: "pain_sensation", type: "check" },
+                      { label: "Vibration Sense", key: "vibration_sense", type: "check" },
+                      { label: "Proprioception", key: "proprioception", type: "check" },
+                      { label: "Temp Sensation", key: "temperature_sensation", type: "check" },
+                      { label: "Brudzinski Sign", key: "brudzinski_sign", type: "check" },
+                      { label: "Kernig Sign", key: "kernig_sign", type: "check" },
+                      { label: "Facial Sensation", key: "facial_sensation", type: "check" },
+                      { label: "Swallowing", key: "swallowing_function", type: "check" },
+                      { label: "Diagnosis", key: "diagnosis" },
+                    ]
+                      .filter(({ key }) => {
+                        const value = neuroExamData[key];
+                        return (
+                          value !== undefined &&
+                          value !== null &&
+                          (typeof value !== "string" || value.trim() !== "")
+                        );
+                      })
+                      .map(({ label, key, type }) => {
+                        const value = neuroExamData[key];
+                        const displayValue = type === "check" ? (value ? "Positive" : "Negative") : value || "-";
+                        return `${label}: ${displayValue}`;
+                      })
+                      .join("; ") + "."
+                  }
+                </div>
+              </div>
             </div>
           </div>
   
@@ -440,17 +428,15 @@ const PatientSearch = () => {
             <div class="follow-up-section">
               <div class="section-title">FOLLOW UP</div>
               <div style="display: flex; justify-content: space-between; gap: 5mm">
-                <div><strong>Date:</strong> ${new Date(
-                  followUpDate
-                ).toLocaleDateString()}</div>
-                <div class="urdu-date text-right bg-rose-50 p-3 rounded-lg border border-rose-100 shadow-sm">
-                  <span class="text-rose-800 font-medium text-lg">
+                <div><strong>Date:</strong> ${new Date(followUpDate).toLocaleDateString()}</div>
+                <div class="urdu-date">
+                  <span>
                     برائے مہربانی 
-                    <span class="text-rose-600 font-semibold mx-2">
-                     ${urduDate(followUpDate)}
-                   </span>
-                   کو دوبارہ تشریف لائیں
-                 </span>
+                    <span style="color: #1e40af; font-weight: 500">
+                      ${urduDate(followUpDate)}
+                    </span>
+                    کو دوبارہ تشریف لائیں
+                  </span>
                 </div>
                 <div><strong>Notes:</strong> ${followUpNotes || "-"}</div>
               </div>
@@ -465,7 +451,8 @@ const PatientSearch = () => {
     printWindow.print();
   };
 
-  // Fetch symptoms and medicines on load
+
+
   useEffect(() => {
     const fetchSymptoms = async () => {
       setIsFetchingSymptoms(true);
