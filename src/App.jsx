@@ -401,6 +401,7 @@ const PatientSearch = () => {
                       { label: "Facial Sensation", key: "facial_sensation", type: "check" },
                       { label: "Swallowing", key: "swallowing_function", type: "check" },
                       { label: "Diagnosis", key: "diagnosis" },
+                      { label: "Treatment Plan", key: "treatment_plan" },
                     ]
                       .filter(({ key }) => {
                         const value = neuroExamData[key];
@@ -917,6 +918,7 @@ const PatientSearch = () => {
             nystagmus: neuroExamData.nystagmus || "",
             fundoscopy: neuroExamData.fundoscopy || "",
             diagnosis: neuroExamData.diagnosis || "",
+            treatment_plan: neuroExamData.treatment_plan || "",
             pain_sensation: !!neuroExamData.pain_sensation,
             vibration_sense: !!neuroExamData.vibration_sense,
             proprioception: !!neuroExamData.proprioception,
@@ -3760,6 +3762,27 @@ before:opacity-50 before:-z-10"
                     </div>
                   </div>
                 </div>
+                <div className="md:col-span-4 space-y-4">
+              <h4 className="font-medium text-gray-700 bg-gray-50 p-2 rounded-lg">
+                Additional Examination
+              </h4>
+              <div className="space-y-2">
+                <label className="text-sm font-medium text-gray-700">
+                  Additional Notes *
+                </label>
+                <textarea
+                  value={neuroExamData.treatment_plan || ""}
+                  onChange={(e) =>
+                    setNeuroExamData((prev) => ({
+                      ...prev,
+                      treatment_plan: e.target.value,
+                    }))
+                  }
+                  className="w-full rounded-lg border-2 border-gray-100 p-3 h-32"
+                  required
+                />
+              </div>
+            </div>
               </div>
             </div>
 

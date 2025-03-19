@@ -242,6 +242,16 @@ const PatientHistory = ({ patientId }) => {
                                   </p>
                                 </div>
                               </div>
+                              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div className="bg-gray-50 p-4 rounded-lg">
+                                  <label className="text-sm font-medium text-gray-500">
+                                    Treatment Plan
+                                  </label>
+                                  <p className="mt-1 text-gray-900">
+                                    {record.treatment_plan || "Not specified"}
+                                  </p>
+                                </div>
+                              </div>
                             </div>
                             <div className="bg-white border-2 border-gray-200 p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow">
                               <div className="flex flex-col md:gap-4">
