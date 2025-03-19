@@ -477,7 +477,7 @@ const PatientSearch = () => {
         setMedicines(
           res.data.map((m) => ({
             value: m.id,
-            label: `${m.form} ${m.brand_name} (${m.strength})`,
+            label: `${m.form} ${m.brand_name}${m.strength ? ` (${m.strength})` : ''}`,
           }))
         );
       } catch (error) {
