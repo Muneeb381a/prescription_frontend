@@ -10,7 +10,11 @@ import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { FaArrowUp, FaArrowDown, FaBan, FaReply } from "react-icons/fa";
+import { FaArrowUp, FaArrowDown, FaBan, FaReply, FaHeartbeat, 
+  FaHeart, 
+  FaThermometerHalf, 
+  FaLungs,
+  FaBrain  } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
 import {
@@ -80,6 +84,14 @@ const PatientSearch = () => {
   const navigate = useNavigate();
 
   const [selectedMedicines, setSelectedMedicines] = useState([]);
+
+  const [vitalSigns, setVitalSigns] = useState({
+    pulseRate: "",
+    bloodPressure: "",
+    temperature: "",
+    spo2: "",
+    nihss: "",
+  });
 
   const handleReturnHome = () => {
     setPatient(null);
@@ -155,24 +167,23 @@ const PatientSearch = () => {
     }),
   };
 
-  //   
+  //
 
   // Fetch symptoms and medicines on load
 
-  
   const handlePrint = () => {
     const printContent = document.getElementById("consultation-content");
     if (!printContent) {
       alert("No consultation data to print");
       return;
     }
-  
+
     const printWindow = window.open("", "_blank");
     if (!printWindow) {
       alert("Pop-up blocked! Allow pop-ups for this site.");
       return;
     }
-  
+
     printWindow.document.write(`
       <html>
         <head>
@@ -332,7 +343,9 @@ const PatientSearch = () => {
                 <tbody>
                   ${selectedMedicines
                     .map((med) => {
-                      const medicineData = medicines.find((m) => m.value === med.medicine_id);
+                      const medicineData = medicines.find(
+                        (m) => m.value === med.medicine_id
+                      );
                       return `
                         <tr>
                           <td>${medicineData?.label || "-"}</td>
@@ -376,7 +389,10 @@ const PatientSearch = () => {
                       { label: "Motor Function", key: "motor_function" },
                       { label: "Muscle Tone", key: "muscle_tone" },
                       { label: "Muscle Strength", key: "muscle_strength" },
-                      { label: "Straight Leg Test", key: "straight_leg_raise_test" },
+                      {
+                        label: "Straight Leg Test",
+                        key: "straight_leg_raise_test",
+                      },
                       { label: "Reflexes", key: "deep_tendon_reflexes" },
                       { label: "Gait", key: "gait_assessment" },
                       { label: "Plantars", key: "plantar_reflex" },
@@ -386,20 +402,58 @@ const PatientSearch = () => {
                       { label: "Sensory Exam", key: "sensory_examination" },
                       { label: "Cranial Nerves", key: "cranial_nerves" },
                       { label: "Mental Status", key: "mental_status" },
-                      { label: "Cerebellar Function", key: "cerebellar_function" },
+                      {
+                        label: "Cerebellar Function",
+                        key: "cerebellar_function",
+                      },
                       { label: "Muscle Wasting", key: "muscle_wasting" },
-                      { label: "Abnormal Movements", key: "abnormal_movements" },
+                      {
+                        label: "Abnormal Movements",
+                        key: "abnormal_movements",
+                      },
                       { label: "Romberg Test", key: "romberg_test" },
                       { label: "Nystagmus", key: "nystagmus" },
                       { label: "Fundoscopy", key: "fundoscopy" },
-                      { label: "Sensation", key: "pain_sensation", type: "check" },
-                      { label: "Vibration Sense", key: "vibration_sense", type: "check" },
-                      { label: "Proprioception", key: "proprioception", type: "check" },
-                      { label: "Temp Sensation", key: "temperature_sensation", type: "check" },
-                      { label: "Brudzinski Sign", key: "brudzinski_sign", type: "check" },
-                      { label: "Kernig Sign", key: "kernig_sign", type: "check" },
-                      { label: "Facial Sensation", key: "facial_sensation", type: "check" },
-                      { label: "Swallowing", key: "swallowing_function", type: "check" },
+                      {
+                        label: "Sensation",
+                        key: "pain_sensation",
+                        type: "check",
+                      },
+                      {
+                        label: "Vibration Sense",
+                        key: "vibration_sense",
+                        type: "check",
+                      },
+                      {
+                        label: "Proprioception",
+                        key: "proprioception",
+                        type: "check",
+                      },
+                      {
+                        label: "Temp Sensation",
+                        key: "temperature_sensation",
+                        type: "check",
+                      },
+                      {
+                        label: "Brudzinski Sign",
+                        key: "brudzinski_sign",
+                        type: "check",
+                      },
+                      {
+                        label: "Kernig Sign",
+                        key: "kernig_sign",
+                        type: "check",
+                      },
+                      {
+                        label: "Facial Sensation",
+                        key: "facial_sensation",
+                        type: "check",
+                      },
+                      {
+                        label: "Swallowing",
+                        key: "swallowing_function",
+                        type: "check",
+                      },
                       { label: "Diagnosis", key: "diagnosis" },
                       { label: "Treatment Plan", key: "treatment_plan" },
                     ]
@@ -413,7 +467,12 @@ const PatientSearch = () => {
                       })
                       .map(({ label, key, type }) => {
                         const value = neuroExamData[key];
-                        const displayValue = type === "check" ? (value ? "Positive" : "Negative") : value || "-";
+                        const displayValue =
+                          type === "check"
+                            ? value
+                              ? "Positive"
+                              : "Negative"
+                            : value || "-";
                         return `${label}: ${displayValue}`;
                       })
                       .join("; ") + "."
@@ -429,7 +488,9 @@ const PatientSearch = () => {
             <div class="follow-up-section">
               <div class="section-title">FOLLOW UP</div>
               <div style="display: flex; justify-content: space-between; gap: 5mm">
-                <div><strong>Date:</strong> ${new Date(followUpDate).toLocaleDateString()}</div>
+                <div><strong>Date:</strong> ${new Date(
+                  followUpDate
+                ).toLocaleDateString()}</div>
                 <div class="urdu-date">
                   <span>
                     برائے مہربانی 
@@ -451,8 +512,6 @@ const PatientSearch = () => {
     printWindow.document.close();
     printWindow.print();
   };
-
-
 
   useEffect(() => {
     const fetchSymptoms = async () => {
@@ -478,7 +537,9 @@ const PatientSearch = () => {
         setMedicines(
           res.data.map((m) => ({
             value: m.id,
-            label: `${m.form} ${m.brand_name}${m.strength ? ` (${m.strength})` : ''}`,
+            label: `${m.form} ${m.brand_name}${
+              m.strength ? ` (${m.strength})` : ""
+            }`,
           }))
         );
       } catch (error) {
@@ -655,167 +716,62 @@ const PatientSearch = () => {
     setPatient(selectedPatient); // Set the selected patient
   };
 
-  // const submitConsultation = async () => {
-  //   if (!patient) {
-  //     alert("Please search for a patient first.");
-  //     return;
-  //   }
+  // validations for vital signs
+  const validateVitals = () => {
+    const errors = [];
 
-  //   setLoading(true);
-  //   try {
-  //     // Step 1: Create Consultation
-  //     const consultationRes = await axios.post(
-  //       "https://patient-management-backend-nine.vercel.app/api/consultations",
-  //       { patient_id: patient.id, doctor_name: "Dr. Abdul Rauf" }
-  //     );
-  //     const consultationId = consultationRes.data.id;
+    if (!/^\d{2,3}\/\d{2,3}$/.test(vitalSigns.bloodPressure)) {
+      errors.push("Invalid blood pressure format (use XXX/XX)");
+    }
 
-  //     // Step 2: Execute All API Calls in Parallel
-  //     const apiCalls = [
-  //       // Submit Symptoms
-  //       axios.post(
-  //         `https://patient-management-backend-nine.vercel.app/api/consultations/${consultationId}/symptoms`,
-  //         {
-  //           patient_id: patient.id,
-  //           symptom_ids: selectedSymptoms.map((s) => s.value),
-  //         }
-  //       ),
+    if (
+      !vitalSigns.pulseRate ||
+      isNaN(vitalSigns.pulseRate) ||
+      vitalSigns.pulseRate < 0
+    ) {
+      errors.push("Invalid pulse rate");
+    }
 
-  //       // Submit Medicines
-  //       axios.post(
-  //         "https://patient-management-backend-nine.vercel.app/api/prescriptions",
-  //         {
-  //           consultation_id: consultationId,
-  //           patient_id: patient.id,
-  //           medicines: selectedMedicines.map((med) => ({
-  //             medicine_id: med.medicine_id,
-  //             dosage_en: med.dosage_en,
-  //             dosage_urdu: med.dosage_urdu,
-  //             frequency_en: med.frequency_en,
-  //             frequency_urdu: med.frequency_urdu,
-  //             duration_en: med.duration_en,
-  //             duration_urdu: med.duration_urdu,
-  //             instructions_en: med.instructions_en,
-  //             instructions_urdu: med.instructions_urdu,
-  //           })),
-  //         }
-  //       ),
+    if (
+      !vitalSigns.temperature ||
+      isNaN(vitalSigns.temperature) ||
+      vitalSigns.temperature < 30 ||
+      vitalSigns.temperature > 45
+    ) {
+      errors.push("Temperature must be between 30°C and 45°C");
+    }
 
-  //       // Submit Examination
-  //       axios.post(
-  //         "https://patient-management-backend-nine.vercel.app/api/examination",
-  //         {
-  //           consultation_id: consultationId,
-  //           patient_id: patient.id,
-  //           motor_function: neuroExamData.motor_function || "",
-  //           muscle_tone: neuroExamData.muscle_tone || "",
-  //           muscle_strength: neuroExamData.muscle_strength || "",
-  //           straight_leg_raise_test: neuroExamData.straight_leg_raise_test,
-  //           deep_tendon_reflexes: neuroExamData.deep_tendon_reflexes || "",
-  //           plantar_reflex: neuroExamData.plantar_reflex || "",
-  //           pupillary_reaction: neuroExamData.pupillary_reaction || "",
-  //           speech_assessment: neuroExamData.speech_assessment || "",
-  //           gait_assessment: neuroExamData.gait_assessment || "",
-  //           coordination: neuroExamData.coordination || "",
-  //           sensory_examination: neuroExamData.sensory_examination || "",
-  //           cranial_nerves: neuroExamData.cranial_nerves || "",
-  //           mental_status: neuroExamData.mental_status || "",
-  //           cerebellar_function: neuroExamData.cerebellar_function || "",
-  //           muscle_wasting: neuroExamData.muscle_wasting || "",
-  //           abnormal_movements: neuroExamData.abnormal_movements || "",
-  //           romberg_test: neuroExamData.romberg_test || "",
-  //           nystagmus: neuroExamData.nystagmus || "",
-  //           fundoscopy: neuroExamData.fundoscopy || "",
-  //           diagnosis: neuroExamData.diagnosis || "",
-  //           pain_sensation: !!neuroExamData.pain_sensation,
-  //           vibration_sense: !!neuroExamData.vibration_sense,
-  //           proprioception: !!neuroExamData.proprioception,
-  //           temperature_sensation: !!neuroExamData.temperature_sensation,
-  //           brudzinski_sign: !!neuroExamData.brudzinski_sign,
-  //           kernig_sign: !!neuroExamData.kernig_sign,
-  //           facial_sensation: !!neuroExamData.facial_sensation,
-  //           swallowing_function: !!neuroExamData.swallowing_function,
-  //         }
-  //       ),
-  //     ];
+    if (
+      !vitalSigns.spo2 ||
+      isNaN(vitalSigns.spo2) ||
+      vitalSigns.spo2 < 0 ||
+      vitalSigns.spo2 > 100
+    ) {
+      errors.push("SpO2 must be between 0-100%");
+    }
 
-  //     // Submit Tests in Parallel
-  //     const testPromises = selectedTests.map(async (testName) => {
-  //       let test = tests.find((t) => t.test_name === testName);
-  //       if (!test) {
-  //         const testResponse = await axios.post(
-  //           "https://patient-management-backend-nine.vercel.app/api/tests",
-  //           { test_name: testName, test_notes: "Optional test notes" }
-  //         );
-  //         test = testResponse.data;
-  //         setTests((prevTests) => [...prevTests, test]);
-  //       }
+    if (
+      !vitalSigns.nihss ||
+      isNaN(vitalSigns.nihss) ||
+      vitalSigns.nihss < 0 ||
+      vitalSigns.nihss > 42
+    ) {
+      errors.push("NIHSS score must be between 0-42");
+    }
 
-  //       return axios.post(
-  //         "https://patient-management-backend-nine.vercel.app/api/tests/assign",
-  //         { test_id: test.id, consultation_id: consultationId }
-  //       );
-  //     });
+    if (errors.length > 0) {
+      alert(errors.join("\n"));
+      return false;
+    }
+    return true;
+  };
 
-  //     // Add test requests to API call list
-  //     apiCalls.push(...testPromises);
-
-  //     // Submit Follow-Up
-  //     if (selectedDuration) {
-  //       apiCalls.push(
-  //         axios.post(
-  //           `https://patient-management-backend-nine.vercel.app/api/followups/consultations/${consultationId}/followups`,
-  //           {
-  //             follow_up_date: followUpDate.toISOString().split("T")[0],
-  //             notes: followUpNotes || "عام چیک اپ",
-  //             duration_days: selectedDuration,
-  //           }
-  //         )
-  //       );
-  //     }
-
-  //     // Execute all API calls in parallel
-  //     await Promise.allSettled(apiCalls);
-
-  //     // Show success message
-  //     toast.success("Consultation added successfully! 🎉", {
-  //       position: "top-right",
-  //       autoClose: 2000,
-  //     });
-
-  //     // Reset state
-  //     setFollowUpDate(null);
-  //     setFollowUpNotes("");
-  //     setSelectedDuration(null);
-
-  //     setTimeout(() => {
-  //       handlePrint(); // Open print dialog first
-  //     }, 500);
-
-  //     // Step 8: **Navigate to Home Page After Printing**
-  //     setTimeout(() => {
-  //       navigate("/");
-  //       window.location.reload(); // Ensures page updates
-  //     }, 3000);
-  //   } catch (error) {
-  //     console.error(
-  //       "Error submitting consultation",
-  //       error.response?.data || error.message
-  //     );
-  //     alert("An error occurred while saving the consultation.");
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
-
-  
-  
   const submitConsultation = async () => {
     if (!patient) {
       alert("Please search for a patient first.");
       return;
     }
-  
+
     setLoading(true);
     try {
       // Step 1: Create Consultation
@@ -824,45 +780,72 @@ const PatientSearch = () => {
         { patient_id: patient.id, doctor_name: "Dr. Abdul Rauf" }
       );
       const consultationId = consultationRes.data.id;
-  
+
       // Step 2: Prepare Test Data and Create New Tests in Parallel
       const existingTestNames = new Set(tests.map((t) => t.test_name));
-      const newTests = selectedTests.filter((testName) => !existingTestNames.has(testName));
-  
-      const testCreationPromises = newTests.map((testName) =>
-        axios.post("https://patient-management-backend-nine.vercel.app/api/tests", {
-          test_name: testName,
-          test_notes: "Optional test notes",
-        })
+      const newTests = selectedTests.filter(
+        (testName) => !existingTestNames.has(testName)
       );
-  
-      const testCreationResults = await Promise.allSettled(testCreationPromises);
+
+      const testCreationPromises = newTests.map((testName) =>
+        axios.post(
+          "https://patient-management-backend-nine.vercel.app/api/tests",
+          {
+            test_name: testName,
+            test_notes: "Optional test notes",
+          }
+        )
+      );
+
+      const testCreationResults = await Promise.allSettled(
+        testCreationPromises
+      );
       const createdTests = testCreationResults
         .filter((result) => result.status === "fulfilled")
         .map((result) => result.value.data);
-  
+
       // Update local tests state with newly created tests
       if (createdTests.length > 0) {
         setTests((prevTests) => [...prevTests, ...createdTests]);
       }
-  
+
       // Map all selected tests to their IDs (existing + newly created)
       const testIds = selectedTests.map((testName) => {
-        const test = tests.find((t) => t.test_name === testName) ||
-                     createdTests.find((t) => t.test_name === testName);
+        const test =
+          tests.find((t) => t.test_name === testName) ||
+          createdTests.find((t) => t.test_name === testName);
         return test.id;
       });
-  
+
       // Step 3: Prepare Test Assignment Promises
       const testAssignmentPromises = testIds.map((testId) =>
-        axios.post("https://patient-management-backend-nine.vercel.app/api/tests/assign", {
-          test_id: testId,
-          consultation_id: consultationId,
-        })
+        axios.post(
+          "https://patient-management-backend-nine.vercel.app/api/tests/assign",
+          {
+            test_id: testId,
+            consultation_id: consultationId,
+          }
+        )
       );
-  
+
+      const vitalsData = {
+        consultation_id: consultationId,
+        patient_id: patient.id,
+        pulse_rate: Number(vitalSigns.pulseRate),
+        blood_pressure: vitalSigns.bloodPressure,
+        temperature: Number(vitalSigns.temperature),
+        spo2_level: Number(vitalSigns.spo2),
+        nihss_score: Number(vitalSigns.nihss),
+      };
+
       // Step 4: Execute All API Calls in Parallel
       const apiCalls = [
+        // submit vitals
+        axios.post(
+          "https://patient-management-backend-nine.vercel.app/api/vitals",
+          vitalsData
+        ),
+
         // Submit Symptoms
         axios.post(
           `https://patient-management-backend-nine.vercel.app/api/consultations/${consultationId}/symptoms`,
@@ -871,7 +854,7 @@ const PatientSearch = () => {
             symptom_ids: selectedSymptoms.map((s) => s.value),
           }
         ),
-  
+
         // Submit Medicines
         axios.post(
           "https://patient-management-backend-nine.vercel.app/api/prescriptions",
@@ -891,7 +874,7 @@ const PatientSearch = () => {
             })),
           }
         ),
-  
+
         // Submit Examination
         axios.post(
           "https://patient-management-backend-nine.vercel.app/api/examination",
@@ -901,7 +884,8 @@ const PatientSearch = () => {
             motor_function: neuroExamData.motor_function || "",
             muscle_tone: neuroExamData.muscle_tone || "",
             muscle_strength: neuroExamData.muscle_strength || "",
-            straight_leg_raise_test: neuroExamData.straight_leg_raise_test || "",
+            straight_leg_raise_test:
+              neuroExamData.straight_leg_raise_test || "",
             deep_tendon_reflexes: neuroExamData.deep_tendon_reflexes || "",
             plantar_reflex: neuroExamData.plantar_reflex || "",
             pupillary_reaction: neuroExamData.pupillary_reaction || "",
@@ -929,11 +913,11 @@ const PatientSearch = () => {
             swallowing_function: !!neuroExamData.swallowing_function,
           }
         ),
-  
+
         // Add Test Assignments
         ...testAssignmentPromises,
       ];
-  
+
       // Submit Follow-Up (if applicable)
       if (selectedDuration) {
         apiCalls.push(
@@ -947,37 +931,49 @@ const PatientSearch = () => {
           )
         );
       }
-  
+
       // Step 5: Execute All API Calls in Parallel
       const results = await Promise.allSettled(apiCalls);
-  
+
       // Check for failed requests
       const failedCalls = results.filter((r) => r.status === "rejected");
       if (failedCalls.length > 0) {
-        console.error("Some API calls failed:", failedCalls.map((r) => r.reason));
+        console.error(
+          "Some API calls failed:",
+          failedCalls.map((r) => r.reason)
+        );
         throw new Error("Partial submission failure");
       }
-  
+
       // Step 6: Success Handling
       toast.success("Consultation added successfully! 🎉", {
         position: "top-right",
         autoClose: 2000,
       });
-  
+
       // Reset state
+      setVitalSigns({
+        pulseRate: "",
+        bloodPressure: "",
+        temperature: "",
+        spo2: "",
+        nihss: "",
+      });
       setFollowUpDate(null);
       setFollowUpNotes("");
       setSelectedDuration(null);
-  
+
       // Step 7: Print and Navigate
-      handlePrint(); 
+      handlePrint();
       setTimeout(() => {
         navigate("/");
-        window.location.reload(); 
-      }, 1000); 
-  
+        window.location.reload();
+      }, 1000);
     } catch (error) {
-      console.error("Error submitting consultation:", error.response?.data || error.message);
+      console.error(
+        "Error submitting consultation:",
+        error.response?.data || error.message
+      );
       alert("An error occurred while saving the consultation.");
     } finally {
       setLoading(false);
@@ -1246,6 +1242,107 @@ before:opacity-50 before:-z-10"
         )}
         {patient ? (
           <div className="space-y-8" id="consultation-content">
+            {/* vitals signs section */}
+            <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+  <div className="flex items-center gap-3 mb-5 border-b border-gray-200 pb-4">
+    <div className="bg-blue-700 p-2.5 rounded-lg text-white shadow-sm">
+      <svg
+        className="w-6 h-6"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="2"
+          d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"
+        />
+      </svg>
+    </div>
+    <div>
+      <h3 className="text-lg font-semibold text-gray-800">Vital Signs</h3>
+      <p className="text-sm text-gray-600">Enter patient's current vital measurements</p>
+    </div>
+  </div>
+
+  <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
+    {/* Blood Pressure */}
+    <div className="space-y-1">
+      <label className="text-sm font-medium text-gray-700">BP (mmHg)</label>
+      <input
+        type="text"
+        value={vitalSigns.bloodPressure}
+        onChange={(e) => setVitalSigns({...vitalSigns, bloodPressure: e.target.value})}
+        className="w-full px-3 py-2 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-400 focus:border-blue-500 transition-all placeholder-gray-400"
+        placeholder="120/80"
+        pattern="\d{2,3}/\d{2,3}"
+        required
+      />
+    </div>
+
+    {/* Pulse Rate */}
+    <div className="space-y-1">
+      <label className="text-sm font-medium text-gray-700">Pulse (bpm)</label>
+      <input
+        type="number"
+        min="0"
+        value={vitalSigns.pulseRate}
+        onChange={(e) => setVitalSigns({...vitalSigns, pulseRate: e.target.value})}
+        className="w-full px-3 py-2 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-400 focus:border-blue-500 transition-all placeholder-gray-400"
+        placeholder="72"
+        required
+      />
+    </div>
+
+    {/* Temperature */}
+    <div className="space-y-1">
+      <label className="text-sm font-medium text-gray-700">Temp (°C)</label>
+      <input
+        type="number"
+        step="0.1"
+        min="30"
+        max="45"
+        value={vitalSigns.temperature}
+        onChange={(e) => setVitalSigns({...vitalSigns, temperature: e.target.value})}
+        className="w-full px-3 py-2 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-400 focus:border-blue-500 transition-all placeholder-gray-400"
+        placeholder="36.6"
+        required
+      />
+    </div>
+
+    {/* SpO2 */}
+    <div className="space-y-1">
+      <label className="text-sm font-medium text-gray-700">SpO2 (%)</label>
+      <input
+        type="number"
+        min="0"
+        max="100"
+        value={vitalSigns.spo2}
+        onChange={(e) => setVitalSigns({...vitalSigns, spo2: e.target.value})}
+        className="w-full px-3 py-2 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-400 focus:border-blue-500 transition-all placeholder-gray-400"
+        placeholder="98"
+        required
+      />
+    </div>
+
+    {/* NIHSS Score */}
+    <div className="space-y-1">
+      <label className="text-sm font-medium text-gray-700">NIHSS</label>
+      <input
+        type="number"
+        min="0"
+        max="42"
+        value={vitalSigns.nihss}
+        onChange={(e) => setVitalSigns({...vitalSigns, nihss: e.target.value})}
+        className="w-full px-3 py-2 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-400 focus:border-blue-500 transition-all placeholder-gray-400"
+        placeholder="0"
+        required
+      />
+    </div>
+  </div>
+</div>
+
             {/* Symptoms Section */}
             <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
               <div className="flex items-center gap-3 mb-5 border-b border-gray-200 pb-4">
@@ -1784,7 +1881,7 @@ before:opacity-50 before:-z-10"
                 <div className="space-y-4">
                   <div className="space-y-2">
                     <label className="text-sm font-medium text-gray-600 mb-1 block">
-                       SLR Test
+                      SLR Test
                     </label>
                     <CreatableSelect
                       options={[
@@ -3763,26 +3860,26 @@ before:opacity-50 before:-z-10"
                   </div>
                 </div>
                 <div className="md:col-span-4 space-y-4">
-              <h4 className="font-medium text-gray-700 bg-gray-50 p-2 rounded-lg">
-                Additional Examination
-              </h4>
-              <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-700">
-                  Additional Notes *
-                </label>
-                <textarea
-                  value={neuroExamData.treatment_plan || ""}
-                  onChange={(e) =>
-                    setNeuroExamData((prev) => ({
-                      ...prev,
-                      treatment_plan: e.target.value,
-                    }))
-                  }
-                  className="w-full rounded-lg border-2 border-gray-100 p-3 h-32"
-                  required
-                />
-              </div>
-            </div>
+                  <h4 className="font-medium text-gray-700 bg-gray-50 p-2 rounded-lg">
+                    Additional Examination
+                  </h4>
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium text-gray-700">
+                      Additional Notes *
+                    </label>
+                    <textarea
+                      value={neuroExamData.treatment_plan || ""}
+                      onChange={(e) =>
+                        setNeuroExamData((prev) => ({
+                          ...prev,
+                          treatment_plan: e.target.value,
+                        }))
+                      }
+                      className="w-full rounded-lg border-2 border-gray-100 p-3 h-32"
+                      required
+                    />
+                  </div>
+                </div>
               </div>
             </div>
 

@@ -9,6 +9,12 @@ import {
   FaFlask,
   FaChevronDown,
   FaChevronUp,
+  FaHeartbeat,
+  FaRegClock,
+  FaHeart,
+  FaThermometerHalf,
+  FaBrain,
+  FaLungs,
 } from "react-icons/fa";
 import { MdOutlineFilterList } from "react-icons/md";
 import { motion, AnimatePresence } from "framer-motion";
@@ -216,39 +222,43 @@ const PatientHistory = ({ patientId }) => {
                         {expandedSections[index] && (
                           <div className="space-y-6 pt-4 border-t border-gray-100">
                             <div>
-                              <div className="flex items-center gap-2 mb-3">
+                              <div className="flex items-center gap-2 mb-4">
                                 <FaNotesMedical className="text-gray-600" />
                                 <h4 className="font-semibold text-gray-900">
                                   Diagnosis & Symptoms
                                 </h4>
                               </div>
+
                               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                {/* Diagnosis */}
                                 <div className="bg-gray-50 p-4 rounded-lg">
                                   <label className="text-sm font-medium text-gray-500">
                                     Diagnosis
                                   </label>
-                                  <p className="mt-1 text-gray-900">
-                                    {record.diagnosis || "Not specified"}
+                                  <p className="mt-2 text-gray-900">
+                                    {record.neuro_diagnosis || "Not specified"}
                                   </p>
                                 </div>
+
+                                {/* Symptoms */}
                                 <div className="bg-gray-50 p-4 rounded-lg">
                                   <label className="text-sm font-medium text-gray-500">
                                     Symptoms
                                   </label>
-                                  <p className="mt-1 text-gray-900">
+                                  <p className="mt-2 text-gray-900">
                                     {record.symptoms
                                       ?.filter(Boolean)
                                       .join(", ") || "No symptoms recorded"}
                                   </p>
                                 </div>
-                              </div>
-                              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <div className="bg-gray-50 p-4 rounded-lg">
+
+                                {/* Treatment Plan - Full width on all screens */}
+                                <div className="md:col-span-2 bg-gray-50 p-4 rounded-lg">
                                   <label className="text-sm font-medium text-gray-500">
                                     Treatment Plan
                                   </label>
-                                  <p className="mt-1 text-gray-900">
-                                    {record.treatment_plan || "Not specified"}
+                                  <p className="mt-2 text-gray-900">
+                                    {record.neuro_treatment_plan || "Not specified"}
                                   </p>
                                 </div>
                               </div>
@@ -288,6 +298,130 @@ const PatientHistory = ({ patientId }) => {
                               </div>
                             </div>
 
+                            {record.vital_signs?.length > 0 && (
+                              <div className="mt-6 pt-4 border-t border-gray-100 w-full">
+                                <div className="flex items-center gap-3 mb-4">
+                                  <div className="p-2.5 bg-red-100 rounded-lg">
+                                    <FaHeartbeat className="text-xl text-red-600" />
+                                  </div>
+                                  <h4 className="text-lg font-semibold text-gray-900">
+                                    Vital Signs
+                                  </h4>
+                                </div>
+
+                                <div className="overflow-x-auto pb-4">
+                                  <div className="flex gap-4 min-w-max">
+                                    {record.vital_signs.map((vital, idx) => (
+                                      <div
+                                        key={idx}
+                                        className="bg-white p-4 rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-all min-w-[300px]"
+                                      >
+                                        <div className="flex flex-col gap-3">
+                                          {/* Header */}
+                                          <div className="flex justify-between items-center">
+                                            <span className="text-xs text-gray-500 flex items-center gap-1">
+                                              <FaRegClock className="text-gray-400" />
+                                              {new Date(
+                                                vital.recorded_at
+                                              ).toLocaleTimeString([], {
+                                                hour: "2-digit",
+                                                minute: "2-digit",
+                                              })}
+                                            </span>
+                                            <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded-full">
+                                              #{idx + 1}
+                                            </span>
+                                          </div>
+
+                                          {/* Vital Signs - Single Row */}
+                                          <div className="flex gap-2">
+                                            {/* Blood Pressure */}
+                                            <div className="flex items-center gap-2 p-2 bg-red-50 rounded-lg flex-1 min-w-[120px]">
+                                              <FaHeartbeat className="text-red-600" />
+                                              <div>
+                                                <p className="text-xs font-medium text-red-700">
+                                                  BP
+                                                </p>
+                                                <p className="text-lg font-bold text-gray-900">
+                                                  {vital.blood_pressure}
+                                                  <span className="text-xs text-gray-500 ml-1">
+                                                    mmHg
+                                                  </span>
+                                                </p>
+                                              </div>
+                                            </div>
+
+                                            {/* Pulse */}
+                                            <div className="flex items-center gap-2 p-2 bg-blue-50 rounded-lg flex-1 min-w-[100px]">
+                                              <FaHeart className="text-blue-600" />
+                                              <div>
+                                                <p className="text-xs font-medium text-blue-700">
+                                                  Pulse
+                                                </p>
+                                                <p className="text-lg font-bold text-gray-900">
+                                                  {vital.pulse_rate}
+                                                  <span className="text-xs text-gray-500 ml-1">
+                                                    bpm
+                                                  </span>
+                                                </p>
+                                              </div>
+                                            </div>
+
+                                            {/* Temperature */}
+                                            <div className="flex items-center gap-2 p-2 bg-orange-50 rounded-lg flex-1 min-w-[100px]">
+                                              <FaThermometerHalf className="text-orange-600" />
+                                              <div>
+                                                <p className="text-xs font-medium text-orange-700">
+                                                  Temp
+                                                </p>
+                                                <p className="text-lg font-bold text-gray-900">
+                                                  {vital.temperature}
+                                                  <span className="text-xs text-gray-500 ml-1">
+                                                    °C
+                                                  </span>
+                                                </p>
+                                              </div>
+                                            </div>
+
+                                            {/* SpO2 */}
+                                            <div className="flex items-center gap-2 p-2 bg-green-50 rounded-lg flex-1 min-w-[100px]">
+                                              <FaLungs className="text-green-600" />
+                                              <div>
+                                                <p className="text-xs font-medium text-green-700">
+                                                  SpO₂
+                                                </p>
+                                                <p className="text-lg font-bold text-gray-900">
+                                                  {vital.spo2_level}
+                                                  <span className="text-xs text-gray-500 ml-1">
+                                                    %
+                                                  </span>
+                                                </p>
+                                              </div>
+                                            </div>
+
+                                            {/* NIHSS */}
+                                            <div className="flex items-center gap-2 p-2 bg-purple-50 rounded-lg flex-1 min-w-[100px]">
+                                              <FaBrain className="text-purple-600" />
+                                              <div>
+                                                <p className="text-xs font-medium text-purple-700">
+                                                  NIHSS
+                                                </p>
+                                                <p className="text-lg font-bold text-gray-900">
+                                                  {vital.nihss_score}
+                                                  <span className="text-xs text-gray-500 ml-1">
+                                                    /42
+                                                  </span>
+                                                </p>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    ))}
+                                  </div>
+                                </div>
+                              </div>
+                            )}
                             {record.prescriptions.length > 0 && (
                               <div>
                                 <div className="flex items-center gap-2 mb-3">
@@ -326,7 +460,6 @@ const PatientHistory = ({ patientId }) => {
                                 </div>
                               </div>
                             )}
-
                             {(record.cranial_nerves ||
                               record.motor_function ||
                               record.muscle_strength ||
