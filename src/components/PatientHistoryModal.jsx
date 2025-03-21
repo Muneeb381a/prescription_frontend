@@ -399,7 +399,18 @@ const PatientHistory = ({ patientId }) => {
                                               </div>
                                             </div>
 
-                                            {/* NIHSS */}
+                                            {/* fall_assessment  */}
+                                            <div className="flex items-center gap-2 p-2 bg-purple-50 rounded-lg flex-1 min-w-[100px]">
+                                              <FaBrain className="text-purple-600" />
+                                              <div>
+                                                <p className="text-xs font-medium text-purple-700">
+                                                  Fall Assesment
+                                                </p>
+                                                <p className="text-lg font-bold text-gray-900">
+                                                  {vital.fall_assessment }
+                                                </p>
+                                              </div>
+                                            </div>
                                             <div className="flex items-center gap-2 p-2 bg-purple-50 rounded-lg flex-1 min-w-[100px]">
                                               <FaBrain className="text-purple-600" />
                                               <div>

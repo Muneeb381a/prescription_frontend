@@ -97,6 +97,7 @@ const PatientSearch = () => {
     temperature: "",
     spo2: "",
     nihss: "",
+    fall_assessment: ""
   });
 
   const handleReturnHome = () => {
@@ -919,6 +920,7 @@ const PatientSearch = () => {
         temperature: Number(vitalSigns.temperature),
         spo2_level: Number(vitalSigns.spo2),
         nihss_score: Number(vitalSigns.nihss),
+        fall_assessment: vitalSigns.fall_assessment, 
       };
 
       // Step 4: Execute All API Calls in Parallel
@@ -1078,7 +1080,7 @@ const PatientSearch = () => {
   };
   return (
     <div
-      className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 p-8 relative 
+      className="min-h-screen p-8 relative 
 overflow-hidden isolate w-[90vw] mx-auto before:absolute before:inset-0 
 before:bg-[radial-gradient(circle_at_top_left,_rgba(255,255,255,0.9),_transparent)] 
 before:opacity-50 before:-z-10"
@@ -1458,6 +1460,22 @@ before:opacity-50 before:-z-10"
                     required
                   />
                 </div>
+                {/* Fall Assessment */}
+                  <div className="space-y-1 md:col-span-2">
+                    <label className="text-sm font-medium text-gray-700">Fall Assessment</label>
+                    <select
+                      value={vitalSigns.fall_assessment}
+                      onChange={(e) =>
+                        setVitalSigns({ ...vitalSigns, fall_assessment: e.target.value })
+                      }
+                      className="w-full px-3 py-2 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-400 focus:border-blue-500 transition-all text-gray-700"
+                      required
+                    >
+                      <option value="Done">Done</option>
+                      <option value="Not Done">Not Done</option>
+                    </select>
+                  </div>
+
               </div>
             </div>
 
