@@ -10,11 +10,17 @@ import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { FaArrowUp, FaArrowDown, FaBan, FaReply, FaHeartbeat, 
-  FaHeart, 
-  FaThermometerHalf, 
+import {
+  FaArrowUp,
+  FaArrowDown,
+  FaBan,
+  FaReply,
+  FaHeartbeat,
+  FaHeart,
+  FaThermometerHalf,
   FaLungs,
-  FaBrain  } from "react-icons/fa";
+  FaBrain,
+} from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
 import {
@@ -326,6 +332,63 @@ const PatientSearch = () => {
               </tr>
             </tbody>
           </table>
+
+
+          <table class="patient-table" style="margin-top: 5mm;">
+  <thead>
+    <tr>
+      <th style="font-size: 9px; padding: 2mm 1mm; background: #f3f4f6;">VITAL SIGNS</th>
+    </tr>
+  </thead>
+  <tbody>
+    ${
+      vitalSigns.bloodPressure ||
+      vitalSigns.pulseRate ||
+      vitalSigns.temperature ||
+      vitalSigns.spo2 ||
+      vitalSigns.nihss
+        ? `
+          <tr>
+            <td style="padding: 1mm; font-size: 9px;">
+              <div style="display: flex; gap: 3mm; justify-content: space-between;">
+                <div>
+                  <div style="color: #6b7280; font-weight: 500;">BP</div>
+                  <div>${
+                    vitalSigns.bloodPressure || "-"
+                  }<span style="color: #6b7280; font-size: 8px;"> mmHg</span></div>
+                </div>
+                <div>
+                  <div style="color: #6b7280; font-weight: 500;">Pulse</div>
+                  <div>${
+                    vitalSigns.pulseRate || "-"
+                  }<span style="color: #6b7280; font-size: 8px;"> bpm</span></div>
+                </div>
+                <div>
+                  <div style="color: #6b7280; font-weight: 500;">Temp</div>
+                  <div>${
+                    vitalSigns.temperature || "-"
+                  }<span style="color: #6b7280; font-size: 8px;"> °C</span></div>
+                </div>
+                <div>
+                  <div style="color: #6b7280; font-weight: 500;">SpO₂</div>
+                  <div>${
+                    vitalSigns.spo2 || "-"
+                  }<span style="color: #6b7280; font-size: 8px;"> %</span></div>
+                </div>
+                <div>
+                  <div style="color: #6b7280; font-weight: 500;">NIHSS</div>
+                  <div>${
+                    vitalSigns.nihss || "-"
+                  }<span style="color: #6b7280; font-size: 8px;"> /42</span></div>
+                </div>
+              </div>
+            </td>
+          </tr>`
+        : `<tr><td style="text-align: center; font-size: 9px; color: #6b7280;">No vital signs recorded</td></tr>`
+    }
+  </tbody>
+</table>
+
   
           <div class="prescription-container">
             <!-- Medicines Column -->
@@ -1244,104 +1307,137 @@ before:opacity-50 before:-z-10"
           <div className="space-y-8" id="consultation-content">
             {/* vitals signs section */}
             <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
-  <div className="flex items-center gap-3 mb-5 border-b border-gray-200 pb-4">
-    <div className="bg-blue-700 p-2.5 rounded-lg text-white shadow-sm">
-      <svg
-        className="w-6 h-6"
-        fill="none"
-        stroke="currentColor"
-        viewBox="0 0 24 24"
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth="2"
-          d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"
-        />
-      </svg>
-    </div>
-    <div>
-      <h3 className="text-lg font-semibold text-gray-800">Vital Signs</h3>
-      <p className="text-sm text-gray-600">Enter patient's current vital measurements</p>
-    </div>
-  </div>
+              <div className="flex items-center gap-3 mb-5 border-b border-gray-200 pb-4">
+                <div className="bg-blue-700 p-2.5 rounded-lg text-white shadow-sm">
+                  <svg
+                    className="w-6 h-6"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"
+                    />
+                  </svg>
+                </div>
+                <div>
+                  <h3 className="text-lg font-semibold text-gray-800">
+                    Vital Signs
+                  </h3>
+                  <p className="text-sm text-gray-600">
+                    Enter patient's current vital measurements
+                  </p>
+                </div>
+              </div>
 
-  <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
-    {/* Blood Pressure */}
-    <div className="space-y-1">
-      <label className="text-sm font-medium text-gray-700">BP (mmHg)</label>
-      <input
-        type="text"
-        value={vitalSigns.bloodPressure}
-        onChange={(e) => setVitalSigns({...vitalSigns, bloodPressure: e.target.value})}
-        className="w-full px-3 py-2 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-400 focus:border-blue-500 transition-all placeholder-gray-400"
-        placeholder="120/80"
-        pattern="\d{2,3}/\d{2,3}"
-        required
-      />
-    </div>
+              <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
+                {/* Blood Pressure */}
+                <div className="space-y-1">
+                  <label className="text-sm font-medium text-gray-700">
+                    BP (mmHg)
+                  </label>
+                  <input
+                    type="text"
+                    value={vitalSigns.bloodPressure}
+                    onChange={(e) =>
+                      setVitalSigns({
+                        ...vitalSigns,
+                        bloodPressure: e.target.value,
+                      })
+                    }
+                    className="w-full px-3 py-2 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-400 focus:border-blue-500 transition-all placeholder-gray-400"
+                    placeholder="120/80"
+                    pattern="\d{2,3}/\d{2,3}"
+                    required
+                  />
+                </div>
 
-    {/* Pulse Rate */}
-    <div className="space-y-1">
-      <label className="text-sm font-medium text-gray-700">Pulse (bpm)</label>
-      <input
-        type="number"
-        min="0"
-        value={vitalSigns.pulseRate}
-        onChange={(e) => setVitalSigns({...vitalSigns, pulseRate: e.target.value})}
-        className="w-full px-3 py-2 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-400 focus:border-blue-500 transition-all placeholder-gray-400"
-        placeholder="72"
-        required
-      />
-    </div>
+                {/* Pulse Rate */}
+                <div className="space-y-1">
+                  <label className="text-sm font-medium text-gray-700">
+                    Pulse (bpm)
+                  </label>
+                  <input
+                    type="number"
+                    min="0"
+                    value={vitalSigns.pulseRate}
+                    onChange={(e) =>
+                      setVitalSigns({
+                        ...vitalSigns,
+                        pulseRate: e.target.value,
+                      })
+                    }
+                    className="w-full px-3 py-2 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-400 focus:border-blue-500 transition-all placeholder-gray-400"
+                    placeholder="72"
+                    required
+                  />
+                </div>
 
-    {/* Temperature */}
-    <div className="space-y-1">
-      <label className="text-sm font-medium text-gray-700">Temp (°C)</label>
-      <input
-        type="number"
-        step="0.1"
-        min="30"
-        max="45"
-        value={vitalSigns.temperature}
-        onChange={(e) => setVitalSigns({...vitalSigns, temperature: e.target.value})}
-        className="w-full px-3 py-2 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-400 focus:border-blue-500 transition-all placeholder-gray-400"
-        placeholder="36.6"
-        required
-      />
-    </div>
+                {/* Temperature */}
+                <div className="space-y-1">
+                  <label className="text-sm font-medium text-gray-700">
+                    Temp (°C)
+                  </label>
+                  <input
+                    type="number"
+                    step="0.1"
+                    min="30"
+                    max="45"
+                    value={vitalSigns.temperature}
+                    onChange={(e) =>
+                      setVitalSigns({
+                        ...vitalSigns,
+                        temperature: e.target.value,
+                      })
+                    }
+                    className="w-full px-3 py-2 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-400 focus:border-blue-500 transition-all placeholder-gray-400"
+                    placeholder="36.6"
+                    required
+                  />
+                </div>
 
-    {/* SpO2 */}
-    <div className="space-y-1">
-      <label className="text-sm font-medium text-gray-700">SpO2 (%)</label>
-      <input
-        type="number"
-        min="0"
-        max="100"
-        value={vitalSigns.spo2}
-        onChange={(e) => setVitalSigns({...vitalSigns, spo2: e.target.value})}
-        className="w-full px-3 py-2 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-400 focus:border-blue-500 transition-all placeholder-gray-400"
-        placeholder="98"
-        required
-      />
-    </div>
+                {/* SpO2 */}
+                <div className="space-y-1">
+                  <label className="text-sm font-medium text-gray-700">
+                    SpO2 (%)
+                  </label>
+                  <input
+                    type="number"
+                    min="0"
+                    max="100"
+                    value={vitalSigns.spo2}
+                    onChange={(e) =>
+                      setVitalSigns({ ...vitalSigns, spo2: e.target.value })
+                    }
+                    className="w-full px-3 py-2 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-400 focus:border-blue-500 transition-all placeholder-gray-400"
+                    placeholder="98"
+                    required
+                  />
+                </div>
 
-    {/* NIHSS Score */}
-    <div className="space-y-1">
-      <label className="text-sm font-medium text-gray-700">NIHSS</label>
-      <input
-        type="number"
-        min="0"
-        max="42"
-        value={vitalSigns.nihss}
-        onChange={(e) => setVitalSigns({...vitalSigns, nihss: e.target.value})}
-        className="w-full px-3 py-2 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-400 focus:border-blue-500 transition-all placeholder-gray-400"
-        placeholder="0"
-        required
-      />
-    </div>
-  </div>
-</div>
+                {/* NIHSS Score */}
+                <div className="space-y-1">
+                  <label className="text-sm font-medium text-gray-700">
+                    NIHSS
+                  </label>
+                  <input
+                    type="number"
+                    min="0"
+                    max="42"
+                    value={vitalSigns.nihss}
+                    onChange={(e) =>
+                      setVitalSigns({ ...vitalSigns, nihss: e.target.value })
+                    }
+                    className="w-full px-3 py-2 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-400 focus:border-blue-500 transition-all placeholder-gray-400"
+                    placeholder="0"
+                    required
+                  />
+                </div>
+              </div>
+            </div>
 
             {/* Symptoms Section */}
             <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
