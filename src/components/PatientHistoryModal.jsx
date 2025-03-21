@@ -677,6 +677,26 @@ const PatientHistory = ({ patientId }) => {
                                             </span>
                                           </div>
                                         )}
+                                        {record.mmse_score && (
+                                          <div className="flex justify-between">
+                                            <span className="text-gray-600">
+                                              MMSE Score:
+                                            </span>
+                                            <span className="font-medium text-gray-800">
+                                              {record.mmse_score}
+                                            </span>
+                                          </div>
+                                        )}
+                                        {record.gcs_score && (
+                                          <div className="flex justify-between">
+                                            <span className="text-gray-600">
+                                              GCS Score:
+                                            </span>
+                                            <span className="font-medium text-gray-800">
+                                              {record.gcs_score}
+                                            </span>
+                                          </div>
+                                        )}
                                         {record.tremors && (
                                           <div className="flex justify-between">
                                             <span className="text-gray-600">

@@ -477,6 +477,8 @@ const PatientSearch = () => {
                       { label: "Romberg Test", key: "romberg_test" },
                       { label: "Nystagmus", key: "nystagmus" },
                       { label: "Fundoscopy", key: "fundoscopy" },
+                      { label: "MMSE Score", key: "mmse_score" },
+                      { label: "GCS Score", key: "gcs_score" },
                       {
                         label: "Sensation",
                         key: "pain_sensation",
@@ -829,6 +831,24 @@ const PatientSearch = () => {
     return true;
   };
 
+  useEffect(() => {
+    if (neuroExamData.mmse_score) {
+      const score = parseInt(neuroExamData.mmse_score.split("/")[0]);
+      if (score > 30) {
+        setNeuroExamData((prev) => ({ ...prev, mmse_score: "30/30" }));
+      }
+    }
+
+    if (neuroExamData.gcs_score) {
+      const score = parseInt(neuroExamData.gcs_score.split("/")[0]);
+      if (score < 3) {
+        setNeuroExamData((prev) => ({ ...prev, gcs_score: "3/15" }));
+      } else if (score > 15) {
+        setNeuroExamData((prev) => ({ ...prev, gcs_score: "15/15" }));
+      }
+    }
+  }, [neuroExamData.mmse_score, neuroExamData.gcs_score]);
+
   const submitConsultation = async () => {
     if (!patient) {
       alert("Please search for a patient first.");
@@ -974,6 +994,8 @@ const PatientSearch = () => {
             kernig_sign: !!neuroExamData.kernig_sign,
             facial_sensation: !!neuroExamData.facial_sensation,
             swallowing_function: !!neuroExamData.swallowing_function,
+            mmse_score: neuroExamData.mmse_score || "",
+            gcs_score: neuroExamData.gcs_score || "",
           }
         ),
 
@@ -3460,6 +3482,7 @@ before:opacity-50 before:-z-10"
                     }}
                   />
                 </div>
+
                 {/* checkboxes */}
                 <div></div>
                 <div className="my-3 group">
@@ -3955,13 +3978,89 @@ before:opacity-50 before:-z-10"
                     </div>
                   </div>
                 </div>
+
+                <div className="flex gap-6 md:col-span-4 w-full">
+                  {/* MMSE Score */}
+                  <div className="w-full space-y-2">
+                    <label className="text-sm font-semibold text-gray-800 flex items-center gap-2">
+                      <span>MMSE Score</span>
+                      <span className="text-xs text-gray-500">
+                        (Mini-Mental State Examination)
+                      </span>
+                    </label>
+                    <div className="relative flex items-center gap-2 w-full">
+                      <input
+                        type="text"
+                        value={neuroExamData.mmse_score?.split("/")[0] || ""}
+                        onChange={(e) => {
+                          const value = e.target.value
+                            .replace(/\D/g, "")
+                            .slice(0, 2);
+                          setNeuroExamData((prev) => ({
+                            ...prev,
+                            mmse_score: value ? `${value}/30` : "",
+                          }));
+                        }}
+                        className="w-full px-4 py-3 text-base font-medium border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-purple-300 focus:border-purple-500 focus:outline-none bg-white placeholder-gray-400"
+                        placeholder="e.g., 24"
+                      />
+                      <span className="absolute right-3 text-gray-500 font-medium">
+                        /30
+                      </span>
+                    </div>
+                    {neuroExamData.mmse_score &&
+                      parseInt(neuroExamData.mmse_score.split("/")[0]) > 30 && (
+                        <p className="text-red-600 text-sm font-medium mt-1 bg-red-50 px-2 py-1 rounded-md">
+                          Score must not exceed 30
+                        </p>
+                      )}
+                  </div>
+
+                  {/* GCS Score */}
+                  <div className="w-full space-y-2">
+                    <label className="text-sm font-semibold text-gray-800 flex items-center gap-2">
+                      <span>GCS Score</span>
+                      <span className="text-xs text-gray-500">
+                        (Glasgow Coma Scale)
+                      </span>
+                    </label>
+                    <div className="relative flex items-center gap-2 w-full">
+                      <input
+                        type="text"
+                        value={neuroExamData.gcs_score?.split("/")[0] || ""}
+                        onChange={(e) => {
+                          const value = e.target.value
+                            .replace(/\D/g, "")
+                            .slice(0, 2);
+                          setNeuroExamData((prev) => ({
+                            ...prev,
+                            gcs_score: value ? `${value}/15` : "",
+                          }));
+                        }}
+                        className="w-full px-4 py-3 text-base font-medium border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-purple-300 focus:border-purple-500 focus:outline-none bg-white placeholder-gray-400"
+                        placeholder="e.g., 13"
+                      />
+                      <span className="absolute right-3 text-gray-500 font-medium">
+                        /15
+                      </span>
+                    </div>
+                    {neuroExamData.gcs_score &&
+                      (parseInt(neuroExamData.gcs_score.split("/")[0]) < 3 ||
+                        parseInt(neuroExamData.gcs_score.split("/")[0]) >
+                          15) && (
+                        <p className="text-red-600 text-sm font-medium mt-1 bg-red-50 px-2 py-1 rounded-md">
+                          Score must be between 3 and 15
+                        </p>
+                      )}
+                  </div>
+                </div>
                 <div className="md:col-span-4 space-y-4">
                   <h4 className="font-medium text-gray-700 bg-gray-50 p-2 rounded-lg">
                     Additional Examination
                   </h4>
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium text-gray-700">
-                      Additional Notes *
+                  <div className="w-full space-y-2">
+                    <label className="text-sm font-semibold text-gray-800">
+                      Treatment Plan
                     </label>
                     <textarea
                       value={neuroExamData.treatment_plan || ""}
@@ -3971,8 +4070,9 @@ before:opacity-50 before:-z-10"
                           treatment_plan: e.target.value,
                         }))
                       }
-                      className="w-full rounded-lg border-2 border-gray-100 p-3 h-32"
-                      required
+                      className="w-full px-4 py-3 text-base font-medium border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-purple-300 focus:border-purple-500 focus:outline-none bg-white placeholder-gray-400"
+                      placeholder="Enter treatment plan..."
+                      rows="3"
                     />
                   </div>
                 </div>
