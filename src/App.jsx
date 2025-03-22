@@ -378,7 +378,8 @@ const PatientSearch = () => {
       vitalSigns.pulseRate ||
       vitalSigns.temperature ||
       vitalSigns.spo2 ||
-      vitalSigns.nihss
+      vitalSigns.nihss ||
+      vitalSigns.fall_assessment
         ? `
           <tr>
             <td style="padding: 1mm; font-size: 9px;">
@@ -411,6 +412,12 @@ const PatientSearch = () => {
                   <div style="color: #6b7280; font-weight: 500;">NIHSS</div>
                   <div>${
                     vitalSigns.nihss || "-"
+                  }<span style="color: #6b7280; font-size: 8px;"> /42</span></div>
+                </div>
+                <div>
+                  <div style="color: #6b7280; font-weight: 500;">Fall Assessment</div>
+                  <div>${
+                    vitalSigns.fall_assessment || "-"
                   }<span style="color: #6b7280; font-size: 8px;"> /42</span></div>
                 </div>
               </div>
@@ -1911,29 +1918,46 @@ before:opacity-50 before:-z-10"
                           type="text"
                           value={neuroExamData.gcs_score?.split("/")[0] || ""}
                           onChange={(e) => {
-                            const value = e.target.value
+                            let value = e.target.value
                               .replace(/\D/g, "")
                               .slice(0, 2);
+                            if (value) {
+                              const numericValue = Math.min(
+                                Math.max(parseInt(value) || 3, 3),
+                                15
+                              );
+                              value = numericValue.toString();
+                            }
                             setNeuroExamData((prev) => ({
                               ...prev,
                               gcs_score: value ? `${value}/15` : "",
                             }));
                           }}
-                          className="w-full px-4 py-3 text-base font-medium border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-purple-300 focus:border-purple-500 focus:outline-none bg-white placeholder-gray-400"
+                          className="w-full pr-10 px-4 py-3 text-base font-medium border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-purple-300 focus:border-purple-500 focus:outline-none bg-white placeholder-gray-400"
                           placeholder="e.g., 13"
                         />
+
                         <span className="absolute right-3 text-gray-500 font-medium">
                           /15
                         </span>
                       </div>
-                      {neuroExamData.gcs_score &&
-                        (parseInt(neuroExamData.gcs_score.split("/")[0]) < 3 ||
-                          parseInt(neuroExamData.gcs_score.split("/")[0]) >
-                            15) && (
-                          <p className="text-red-600 text-sm font-medium mt-1 bg-red-50 px-2 py-1 rounded-md">
-                            Score must be between 3 and 15
-                          </p>
-                        )}
+                      {(() => {
+                        const score = parseInt(
+                          neuroExamData.gcs_score?.split("/")[0],
+                          10
+                        );
+                        if (
+                          neuroExamData.gcs_score &&
+                          (isNaN(score) || score < 3 || score > 15)
+                        ) {
+                          return (
+                            <p className="text-red-600 text-sm font-medium mt-1 bg-red-50 px-2 py-1 rounded-md">
+                              Score must be between 3 and 15
+                            </p>
+                          );
+                        }
+                        return null;
+                      })()}
                     </div>
                   </div>
                 </div>
