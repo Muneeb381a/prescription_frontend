@@ -120,7 +120,7 @@ const PatientSearch = () => {
     temperature: "",
     spo2: "",
     nihss: "",
-    fall_assessment: "",
+    fall_assessment: "Done",
   });
 
   const handleReturnHome = () => {
