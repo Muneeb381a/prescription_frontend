@@ -50,7 +50,7 @@ const PatientHistory = ({ patientId }) => {
         `https://patient-management-backend-nine.vercel.app/api/patient-history/${patientId}`,
         { timeout: 10000 }
       );
-      console.log("API Response:", response.data);
+      
 
       if (!Array.isArray(response.data)) {
         setHistory([response.data]);
