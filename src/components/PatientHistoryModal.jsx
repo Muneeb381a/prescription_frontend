@@ -263,15 +263,16 @@ const PatientHistory = ({ patientId }) => {
                                 </div>
                               </div>
                             </div>
-                            <div className="bg-white border-2 border-gray-200 p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow">
+                            <div className="bg-white pt-5 border-t-2 border-gray-100  transition-shadow">
                               <div className="flex flex-col md:gap-4">
                                 {/* Title with icon */}
-                                <div className="inline-flex items-center gap-2 mb-2 md:mb-0">
-                                  <FaFlask className="w-5 h-5 text-blue-600" />{" "}
-                                  {/* Add your preferred icon */}
-                                  <span className="text-base font-semibold text-gray-700">
-                                    Prescribed Tests
-                                  </span>
+                                <div className="flex items-center gap-3 mb-4">
+                                  <div className="p-2.5 bg-blue-100 rounded-lg">
+                                    <FaFlask className="text-xl text-blue-600" />
+                                  </div>
+                                  <h4 className="text-lg font-semibold text-gray-900">
+                                   Tests
+                                  </h4>
                                 </div>
 
                                 {/* Tests list */}
@@ -310,33 +311,18 @@ const PatientHistory = ({ patientId }) => {
                                 </div>
 
                                 <div className="overflow-x-auto pb-4">
-                                  <div className="flex gap-4 min-w-max">
+                                  <div className="flex gap-2 min-w-max">
                                     {record.vital_signs.map((vital, idx) => (
                                       <div
                                         key={idx}
-                                        className="bg-white p-4 rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-all min-w-[300px]"
+                                        className="bg-white p-4 border-b border-gray-100 transition-all min-w-[300px]"
                                       >
                                         <div className="flex flex-col gap-3">
-                                          {/* Header */}
-                                          <div className="flex justify-between items-center">
-                                            <span className="text-xs text-gray-500 flex items-center gap-1">
-                                              <FaRegClock className="text-gray-400" />
-                                              {new Date(
-                                                vital.recorded_at
-                                              ).toLocaleTimeString([], {
-                                                hour: "2-digit",
-                                                minute: "2-digit",
-                                              })}
-                                            </span>
-                                            <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded-full">
-                                              #{idx + 1}
-                                            </span>
-                                          </div>
 
                                           {/* Vital Signs - Single Row */}
                                           <div className="flex gap-2">
                                             {/* Blood Pressure */}
-                                            <div className="flex items-center gap-2 p-2 bg-red-50 rounded-lg flex-1 min-w-[120px]">
+                                            <div className="flex items-center justify-center gap-2 p-1 bg-red-50 rounded-lg flex-1 min-w-[150px]">
                                               <FaHeartbeat className="text-red-600" />
                                               <div>
                                                 <p className="text-xs font-medium text-red-700">
@@ -352,7 +338,7 @@ const PatientHistory = ({ patientId }) => {
                                             </div>
 
                                             {/* Pulse */}
-                                            <div className="flex items-center gap-2 p-2 bg-blue-50 rounded-lg flex-1 min-w-[100px]">
+                                            <div className="flex items-center justify-center gap-2 p-2 bg-blue-50 rounded-lg flex-1 min-w-[110px]">
                                               <FaHeart className="text-blue-600" />
                                               <div>
                                                 <p className="text-xs font-medium text-blue-700">
@@ -368,7 +354,7 @@ const PatientHistory = ({ patientId }) => {
                                             </div>
 
                                             {/* Temperature */}
-                                            <div className="flex items-center gap-2 p-2 bg-orange-50 rounded-lg flex-1 min-w-[100px]">
+                                            <div className="flex items-center justify-center gap-2 p-2 bg-orange-50 rounded-lg flex-1 min-w-[110px]">
                                               <FaThermometerHalf className="text-orange-600" />
                                               <div>
                                                 <p className="text-xs font-medium text-orange-700">
@@ -384,7 +370,7 @@ const PatientHistory = ({ patientId }) => {
                                             </div>
 
                                             {/* SpO2 */}
-                                            <div className="flex items-center gap-2 p-2 bg-green-50 rounded-lg flex-1 min-w-[100px]">
+                                            <div className="flex items-center justify-center gap-2 p-2 bg-green-50 rounded-lg flex-1 min-w-[110px]">
                                               <FaLungs className="text-green-600" />
                                               <div>
                                                 <p className="text-xs font-medium text-green-700">
@@ -400,7 +386,7 @@ const PatientHistory = ({ patientId }) => {
                                             </div>
 
                                             {/* fall_assessment  */}
-                                            <div className="flex items-center gap-2 p-2 bg-purple-50 rounded-lg flex-1 min-w-[100px]">
+                                            <div className="flex items-center justify-center gap-2 p-2 bg-purple-50 rounded-lg flex-1 min-w-[130px]">
                                               <FaBrain className="text-purple-600" />
                                               <div>
                                                 <p className="text-xs font-medium text-purple-700">
@@ -411,7 +397,7 @@ const PatientHistory = ({ patientId }) => {
                                                 </p>
                                               </div>
                                             </div>
-                                            <div className="flex items-center gap-2 p-2 bg-purple-50 rounded-lg flex-1 min-w-[100px]">
+                                            <div className="flex items-center justify-center gap-2 p-2 bg-purple-50 rounded-lg flex-1 min-w-[120px]">
                                               <FaBrain className="text-purple-600" />
                                               <div>
                                                 <p className="text-xs font-medium text-purple-700">
@@ -435,10 +421,12 @@ const PatientHistory = ({ patientId }) => {
                             )}
                             {record.prescriptions.length > 0 && (
                               <div>
-                                <div className="flex items-center gap-2 mb-3">
-                                  <FaPills className="text-purple-600" />
-                                  <h4 className="font-semibold text-gray-900">
-                                    Prescriptions
+                                <div className="flex items-center gap-3 mb-4">
+                                  <div className="p-2.5 bg-purple-100 rounded-lg">
+                                    <FaPills className="text-xl text-purple-600" />
+                                  </div>
+                                  <h4 className="text-lg font-semibold text-gray-900">
+                                    Prescription
                                   </h4>
                                 </div>
                                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
