@@ -1517,7 +1517,7 @@ before:opacity-50 before:-z-10"
             </div>
 
             {/* Symptoms Section */}
-            <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+            {/* <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
               <div className="flex items-center gap-3 mb-5 border-b border-gray-200 pb-4">
                 <div className="bg-orange-700 p-2.5 rounded-lg text-white shadow-sm">
                   <svg
@@ -1576,7 +1576,105 @@ before:opacity-50 before:-z-10"
                   }),
                 }}
               />
+            </div> */}
+
+            <div className="bg-white p-7 rounded-2xl border border-gray-100 shadow-lg hover:shadow-xl transition-shadow duration-200">
+              <div className="flex items-center gap-4 mb-6 pb-4 border-b border-gray-100">
+                <div className="bg-orange-600 p-3 rounded-xl text-white shadow-md hover:scale-105 transition-transform duration-200">
+                  <svg
+                    className="w-7 h-7"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="1.8"
+                      d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                    ></path>
+                  </svg>
+                </div>
+                <div>
+                  <h3 className="text-xl font-bold text-gray-900 tracking-tight">
+                    Symptom Analysis
+                  </h3>
+                  <p className="text-sm text-gray-500 mt-1 font-medium">
+                    Select or create observed symptoms
+                  </p>
+                </div>
+              </div>
+
+              <CreatableSelect
+                isMulti
+                options={symptoms}
+                value={selectedSymptoms}
+                onChange={setSelectedSymptoms}
+                placeholder="Search or type symptoms..."
+                classNamePrefix="react-select"
+                isClearable
+                onCreateOption={handleCreateSymptom}
+                isLoading={isFetchingSymptoms}
+                formatCreateLabel={(inputValue) => `Create "${inputValue}"`}
+                styles={{
+                  control: (base) => ({
+                    ...base,
+                    border: "1px solid #e5e7eb",
+                    borderRadius: "12px",
+                    padding: "8px 12px",
+                    boxShadow: "0 1px 2px rgba(0, 0, 0, 0.05)",
+                    "&:hover": { borderColor: "#3b82f6" },
+                    "&:focus-within": {
+                      borderColor: "#3b82f6",
+                      boxShadow: "0 0 0 2px rgba(59, 130, 246, 0.2)",
+                    },
+                  }),
+                  multiValue: (base) => ({
+                    ...base,
+                    backgroundColor: "#eff6ff",
+                    borderRadius: "8px",
+                    padding: "2px 8px",
+                    boxShadow: "0 1px 2px rgba(0, 0, 0, 0.05)",
+                  }),
+                  multiValueLabel: (base) => ({
+                    ...base,
+                    color: "#1d4ed8",
+                    fontWeight: "500",
+                    fontSize: "0.875rem",
+                  }),
+                  multiValueRemove: (base) => ({
+                    ...base,
+                    color: "#1d4ed8",
+                    ":hover": {
+                      backgroundColor: "#bfdbfe",
+                      borderRadius: "6px",
+                    },
+                  }),
+                  menu: (base) => ({
+                    ...base,
+                    borderRadius: "12px",
+                    border: "1px solid #e5e7eb",
+                    boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.05)",
+                    marginTop: "8px",
+                  }),
+                  option: (base, state) => ({
+                    ...base,
+                    backgroundColor: state.isFocused ? "#f0f9ff" : "white",
+                    color: state.isFocused ? "#0369a1" : "#1f2937",
+                    fontWeight: state.isFocused ? "500" : "400",
+                    ":active": {
+                      backgroundColor: "#e0f2fe",
+                    },
+                  }),
+                  placeholder: (base) => ({
+                    ...base,
+                    color: "#9ca3af",
+                    fontSize: "0.875rem",
+                  }),
+                }}
+              />
             </div>
+
             {/* Neurological Examination Section */}
             <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
               <h3 className="mb-5 text-lg font-bold text-gray-800 flex items-center gap-2">
@@ -1913,51 +2011,34 @@ before:opacity-50 before:-z-10"
                           (Glasgow Coma Scale)
                         </span>
                       </label>
+
                       <div className="relative flex items-center gap-2 w-full">
                         <input
-                          type="text"
+                          type="number"
+                          min={1}
+                          max={15}
                           value={neuroExamData.gcs_score?.split("/")[0] || ""}
                           onChange={(e) => {
-                            let value = e.target.value
-                              .replace(/\D/g, "")
-                              .slice(0, 2);
-                            if (value) {
-                              const numericValue = Math.min(
-                                Math.max(parseInt(value) || 3, 3),
-                                15
-                              );
-                              value = numericValue.toString();
+                            const value = parseInt(e.target.value, 10);
+                            if (value >= 1 && value <= 15) {
+                              setNeuroExamData((prev) => ({
+                                ...prev,
+                                gcs_score: `${value}/15`,
+                              }));
+                            } else if (e.target.value === "") {
+                              setNeuroExamData((prev) => ({
+                                ...prev,
+                                gcs_score: "",
+                              }));
                             }
-                            setNeuroExamData((prev) => ({
-                              ...prev,
-                              gcs_score: value ? `${value}/15` : "",
-                            }));
                           }}
                           className="w-full pr-10 px-4 py-3 text-base font-medium border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-purple-300 focus:border-purple-500 focus:outline-none bg-white placeholder-gray-400"
-                          placeholder="e.g., 13"
+                          placeholder="1 to 15"
                         />
-
                         <span className="absolute right-3 text-gray-500 font-medium">
                           /15
                         </span>
                       </div>
-                      {(() => {
-                        const score = parseInt(
-                          neuroExamData.gcs_score?.split("/")[0],
-                          10
-                        );
-                        if (
-                          neuroExamData.gcs_score &&
-                          (isNaN(score) || score < 3 || score > 15)
-                        ) {
-                          return (
-                            <p className="text-red-600 text-sm font-medium mt-1 bg-red-50 px-2 py-1 rounded-md">
-                              Score must be between 3 and 15
-                            </p>
-                          );
-                        }
-                        return null;
-                      })()}
                     </div>
                   </div>
                 </div>
@@ -1988,7 +2069,7 @@ before:opacity-50 before:-z-10"
             </div>
 
             {/* test sections */}
-            <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+            {/* <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
               <div className="flex items-center gap-3 mb-5 border-b border-gray-200 pb-4">
                 <div className="bg-orange-900 p-2.5 rounded-lg text-white shadow-sm">
                   <svg
@@ -2033,6 +2114,91 @@ before:opacity-50 before:-z-10"
                 placeholder="Type or select a test..."
                 className="react-select-container"
                 classNamePrefix="react-select"
+              />
+            </div> */}
+
+            <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-lg hover:shadow-xl transition-shadow duration-200">
+              <div className="flex items-center gap-4 mb-6 pb-4 border-b border-gray-100">
+                <div className="bg-orange-600 p-3 rounded-xl text-white shadow-md hover:shadow-lg transition-shadow duration-200">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    className="w-7 h-7"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.8"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"
+                    />
+                  </svg>
+                </div>
+                <div>
+                  <h3 className="text-xl font-bold text-gray-900 tracking-tight">
+                    Add Diagnostic Tests
+                  </h3>
+                  <p className="text-sm text-gray-500 mt-1 font-medium tracking-wide">
+                    Select or create laboratory investigations
+                  </p>
+                </div>
+              </div>
+
+              <CreatableSelect
+                isMulti
+                options={tests.map((test) => ({
+                  value: test.test_name,
+                  label: test.test_name,
+                }))}
+                value={selectedTests.map((test) => ({
+                  value: test,
+                  label: test,
+                }))}
+                onChange={(newTests) =>
+                  setSelectedTests(newTests.map((t) => t.value))
+                }
+                onCreateOption={(newTestName) => {
+                  setSelectedTests([...selectedTests, newTestName]);
+                }}
+                placeholder="Search or create tests..."
+                className="react-select-container"
+                classNamePrefix="react-select"
+                styles={{
+                  control: (base) => ({
+                    ...base,
+                    borderRadius: "12px",
+                    padding: "8px 12px",
+                    borderColor: "#e5e7eb",
+                    boxShadow: "none",
+                    "&:hover": {
+                      borderColor: "#d1d5db",
+                    },
+                  }),
+                  multiValue: (base) => ({
+                    ...base,
+                    backgroundColor: "#fff7ed",
+                    borderRadius: "8px",
+                    padding: "2px 8px",
+                  }),
+                  multiValueLabel: (base) => ({
+                    ...base,
+                    color: "#ea580c",
+                    fontWeight: "500",
+                  }),
+                  menu: (base) => ({
+                    ...base,
+                    borderRadius: "12px",
+                    border: "1px solid #e5e7eb",
+                    boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.05)",
+                  }),
+                  option: (base, state) => ({
+                    ...base,
+                    backgroundColor: state.isFocused ? "#fff7ed" : "white",
+                    color: state.isFocused ? "#ea580c" : "#1f2937",
+                    fontWeight: state.isFocused ? "500" : "400",
+                  }),
+                }}
               />
             </div>
 
