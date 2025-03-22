@@ -233,13 +233,13 @@ const PatientSearch = () => {
               margin: 20mm 15mm;
               color: #374151;
               font-size: 11px;
-              line-height: 1.6;
+              line-height: 1.3;
             }
   
             .prescription-container {
               display: grid;
               grid-template-columns: 2fr 1fr;
-              gap: 6mm;
+              gap: 3mm;
               margin-top: 5mm;
             }
   
@@ -267,15 +267,15 @@ const PatientSearch = () => {
             .section-title {
               font-weight: 600;
               color: #1e40af;
-              padding-bottom: 2mm;
-              margin-bottom: 3mm;
+              padding-bottom: 1mm;
+              margin-bottom: 1mm;
               border-bottom: 2px solid #1e40af;
             }
   
             .medicine-table {
               width: 100%;
               border-collapse: collapse;
-              margin: 2mm 0;
+              margin: 1mm 0;
             }
   
             .medicine-table th {
@@ -295,30 +295,24 @@ const PatientSearch = () => {
             }
   
             .clinical-section {
-              margin-bottom: 6mm;
-              padding: 2mm;
+              margin-bottom: 0.5mm;
+              padding: 1mm;
               background: #f8fafc;
-              border-radius: 4px;
-              border: 1px solid #e2e8f0;
             }
   
             .clinical-paragraph {
-              margin: 3mm 0;
               text-align: justify;
               color: #475569;
             }
   
             .clinical-paragraph strong {
               color: #1e293b;
-              margin-right: 1mm;
             }
   
             .follow-up-section {
-              margin-top: 6mm;
+              margin-top: 1mm;
               padding: 3mm;
               background: #f0fdfa;
-              border-radius: 4px;
-              border: 1px solid #ccfbf1;
             }
   
             .urdu-date {
@@ -366,68 +360,6 @@ const PatientSearch = () => {
           </table>
 
 
-          <table class="patient-table" style="margin-top: 5mm;">
-  <thead>
-    <tr>
-      <th style="font-size: 9px; padding: 2mm 1mm; background: #f3f4f6;">VITAL SIGNS</th>
-    </tr>
-  </thead>
-  <tbody>
-    ${
-      vitalSigns.bloodPressure ||
-      vitalSigns.pulseRate ||
-      vitalSigns.temperature ||
-      vitalSigns.spo2 ||
-      vitalSigns.nihss ||
-      vitalSigns.fall_assessment
-        ? `
-          <tr>
-            <td style="padding: 1mm; font-size: 9px;">
-              <div style="display: flex; gap: 3mm; justify-content: space-between;">
-                <div>
-                  <div style="color: #6b7280; font-weight: 500;">BP</div>
-                  <div>${
-                    vitalSigns.bloodPressure || "-"
-                  }<span style="color: #6b7280; font-size: 8px;"> mmHg</span></div>
-                </div>
-                <div>
-                  <div style="color: #6b7280; font-weight: 500;">Pulse</div>
-                  <div>${
-                    vitalSigns.pulseRate || "-"
-                  }<span style="color: #6b7280; font-size: 8px;"> bpm</span></div>
-                </div>
-                <div>
-                  <div style="color: #6b7280; font-weight: 500;">Temp</div>
-                  <div>${
-                    vitalSigns.temperature || "-"
-                  }<span style="color: #6b7280; font-size: 8px;"> °C</span></div>
-                </div>
-                <div>
-                  <div style="color: #6b7280; font-weight: 500;">SpO₂</div>
-                  <div>${
-                    vitalSigns.spo2 || "-"
-                  }<span style="color: #6b7280; font-size: 8px;"> %</span></div>
-                </div>
-                <div>
-                  <div style="color: #6b7280; font-weight: 500;">NIHSS</div>
-                  <div>${
-                    vitalSigns.nihss || "-"
-                  }<span style="color: #6b7280; font-size: 8px;"> /42</span></div>
-                </div>
-                <div>
-                  <div style="color: #6b7280; font-weight: 500;">Fall Assessment</div>
-                  <div>${
-                    vitalSigns.fall_assessment || "-"
-                  }<span style="color: #6b7280; font-size: 8px;"> /42</span></div>
-                </div>
-              </div>
-            </td>
-          </tr>`
-        : `<tr><td style="text-align: center; font-size: 9px; color: #6b7280;">No vital signs recorded</td></tr>`
-    }
-  </tbody>
-</table>
-
   
           <div class="prescription-container">
             <!-- Medicines Column -->
@@ -467,6 +399,87 @@ const PatientSearch = () => {
               <div class="section-title">CLINICAL FINDINGS</div>
               <div class="clinical-section">
                 <div class="clinical-paragraph">
+              ${
+                vitalSigns.bloodPressure ||
+                vitalSigns.pulseRate ||
+                vitalSigns.temperature ||
+                vitalSigns.spo2 ||
+                vitalSigns.nihss ||
+                vitalSigns.fall_assessment
+                  ? `
+                    <div class="vital-signs">
+                    <strong>Vital Signs:</strong>
+                      ${
+                        vitalSigns.bloodPressure
+                          ? `
+                         
+                            <span class="vital-label">BP:</span>
+                            <span class="vital-value">${vitalSigns.bloodPressure}</span>
+                            <span style="font-size: 8px; color: #6b7280;">mmHg</span>
+                          
+                        `
+                          : ""
+                      }
+                      ${
+                        vitalSigns.pulseRate
+                          ? `
+                          
+                            <span class="vital-label">Pulse:</span>
+                            <span class="vital-value">${vitalSigns.pulseRate}</span>
+                            <span style="font-size: 8px; color: #6b7280;">bpm</span>
+                          
+                        `
+                          : ""
+                      }
+                      ${
+                        vitalSigns.temperature
+                          ? `
+                          
+                            <span class="vital-label">Temp:</span>
+                            <span class="vital-value">${vitalSigns.temperature}</span>
+                            <span style="font-size: 8px; color: #6b7280;">°C</span>
+                          
+                        `
+                          : ""
+                      }
+                      ${
+                        vitalSigns.spo2
+                          ? `
+                          
+                            <span class="vital-label">SpO₂:</span>
+                            <span class="vital-value">${vitalSigns.spo2}</span>
+                            <span style="font-size: 8px; color: #6b7280;">%</span>
+                         
+                        `
+                          : ""
+                      }
+                      ${
+                        vitalSigns.nihss
+                          ? `
+                         
+                            <span class="vital-label">NIHSS:</span>
+                            <span class="vital-value">${vitalSigns.nihss}</span>
+                            <span style="font-size: 8px; color: #6b7280;">/42</span>
+                          
+                        `
+                          : ""
+                      }
+                      ${
+                        vitalSigns.fall_assessment
+                          ? `
+                         
+                            <span class="vital-label">Fall Risk:</span>
+                            <span class="vital-value">${vitalSigns.fall_assessment}</span>
+                            <span style="font-size: 8px; color: #6b7280;">/42</span>
+                         
+                        `
+                          : ""
+                      }
+                    </div>
+                  `
+                  : `<div style="color: #6b7280; font-size: 9px; margin-top: 2mm;">No vital signs recorded</div>`
+              }
+            </div>
                   <strong>Symptoms:</strong>
                   ${
                     selectedSymptoms.length > 0
