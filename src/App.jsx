@@ -328,7 +328,7 @@ const PatientSearch = () => {
                 margin: 0 !important;
               }
               body {
-                margin:69.85mm 3mm 76.2mm !important;
+                margin:69.85mm 10mm 76.2mm !important;
               }
               .section-title {
                 color: #1e3a8a !important;
