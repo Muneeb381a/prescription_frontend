@@ -235,7 +235,7 @@ const PatientSearch = () => {
               margin: 20mm 15mm;
               color: #374151;
               font-size: 11px;
-              line-height: 1.3;
+              line-height: 1.1;
             }
   
             .prescription-container {
@@ -248,14 +248,14 @@ const PatientSearch = () => {
             .patient-table {
               width: 100%;
               border-collapse: collapse;
-              margin-bottom: 5mm;
+              margin-bottom: 3mm;
               background: #f8fafc;
               border: 1px solid #e2e8f0;
             }
   
             .patient-table th,
             .patient-table td {
-              padding: 3mm 2mm;
+              padding: 1mm 2mm;
               border: 1px solid #e2e8f0;
               text-align: left;
             }
@@ -328,7 +328,7 @@ const PatientSearch = () => {
                 margin: 0 !important;
               }
               body {
-                margin: 30mm 5mm !important;
+                margin:69.85mm 3mm 76.2mm !important;
               }
               .section-title {
                 color: #1e3a8a !important;
@@ -337,7 +337,7 @@ const PatientSearch = () => {
           </style>
         </head>
         <body>
-          <div style="height: 30mm"></div>
+          
           <table class="patient-table">
             <thead>
               <tr>
