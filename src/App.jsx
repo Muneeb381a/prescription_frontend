@@ -3229,21 +3229,22 @@ before:opacity-50 before:-z-10"
                 Clinical Decisions
               </h4>
               <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-700">
-                  Diagnosis *
-                </label>
-                <textarea
-                  value={neuroExamData.diagnosis || ""}
-                  onChange={(e) =>
-                    setNeuroExamData((prev) => ({
-                      ...prev,
-                      diagnosis: e.target.value,
-                    }))
-                  }
-                  className="w-full rounded-lg border-2 border-gray-100 p-3 h-32"
-                  required
-                />
-              </div>
+  <label className="text-sm font-medium text-gray-700">
+    Diagnosis
+  </label>
+  <textarea
+    value={neuroExamData.diagnosis || ""}
+    onChange={(e) =>
+      setNeuroExamData((prev) => ({
+        ...prev,
+        diagnosis: e.target.value,
+      }))
+    }
+    className="w-full rounded-lg border-2 border-gray-100 p-3 h-32"
+    // Remove required
+  />
+</div>
+
             </div>
             {/* followup */}
             <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm mt-6">
