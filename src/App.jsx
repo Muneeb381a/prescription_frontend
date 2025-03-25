@@ -260,9 +260,9 @@ const PatientSearch = () => {
               text-align: left;
             }
   
-            .patient-table th {
+            .patient-table td {
               background: #e2e8f0;
-              font-weight: 600;
+              font-size: 10px;
               width: 25%;
             }
   
@@ -281,16 +281,16 @@ const PatientSearch = () => {
             }
   
             .medicine-table th {
-              padding: 3mm 1mm;
+              padding: 1mm 1mm;
               text-align: left;
               font-weight: 600;
-              font-size: 12px;
+              font-size: 11px;
               background: #eff6ff;
               border-bottom: 2px solid #1e40af;
             }
   
             .medicine-table td {
-              padding: 2mm 1mm;
+              padding: 1mm 1mm;
               border-bottom: 1px solid #e5e7eb;
               font-size: 10px;
               font-family: 'Noto Nastaliq Urdu', serif;
@@ -337,32 +337,15 @@ const PatientSearch = () => {
           </style>
         </head>
         <body>
-          
           <table class="patient-table">
-            <thead>
-              <tr>
-                <th>Patient Name</th>
-                <th>Mobile #</th>
-                <th>Age/Sex</th>
-                <th>Checkup Date</th>
-              </tr>
-            </thead>
             <tbody>
               <tr>
-                <td>${patient?.name || "-"}</td>
-                <td>${patient?.mobile || "-"}</td>
-                <td>${patient?.age || "-"}/${patient?.gender || "-"}</td>
-                <td>${
-                  patient?.checkup_date
-                    ? new Date(patient.checkup_date).toLocaleDateString("en-UK")
-                    : "-"
-                }</td>
+                <td><strong>Name:</strong> ${patient?.name || "-"}</td>
+                <td><strong>Mobile:</strong> ${patient?.mobile || "-"}</td>
+                <td><strong>Age/Sex:</strong> ${patient?.age || "-"}/${patient?.gender || "-"}</td>
               </tr>
             </tbody>
           </table>
-
-
-  
           <div class="prescription-container">
             <!-- Medicines Column -->
             <div class="column" style="border-right: 2px solid #1e40af;">
@@ -370,10 +353,10 @@ const PatientSearch = () => {
               <table class="medicine-table">
                 <thead>
                   <tr>
-                    <th style="width: 25%">Medicine</th>
-                    <th style="width: 25%">Frequency</th>
-                    <th style="width: 15%">Dosage</th>
-                    <th style="width: 20%">Duration</th>
+                    <th style="width: 35%">Medicine</th>
+                    <th style="width: 25%" class="urdu-date">روزانہ کتنی بار</th>
+                    <th style="width: 15%" class="urdu-date">خوراک</th>
+                    <th style="width: 20%" class="urdu-date">مدت</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -1345,13 +1328,11 @@ const PatientSearch = () => {
   const MEDICINE_DEFAULTS = {
     Tablet: {
       dosage_en: "1",
-      dosage_urdu: "ایک گولی (1 Tablet)",
-      frequency_en: "morning_evening",
-      frequency_urdu: "صبح، شام (Morning & Evening)",
+      dosage_urdu: "ایک گولی",
+      frequency_urdu: "صبح، شام ",
       duration_en: "5_days",
-      duration_urdu: "5 دن (5 Days)",
-      instructions_en: "after_meal",
-      instructions_urdu: "کھانے کے بعد (After Meal)",
+      duration_urdu: "5 دن ",
+      instructions_urdu: "کھانے کے بعد",
     },
   };
   return (
@@ -2643,92 +2624,96 @@ before:opacity-50 before:-z-10"
                         </label>
                         <Select
                           options={[
-                            { value: "morning", label: "صبح (Morning)" },
-                            { value: "afternoon", label: "دوپہر (Afternoon)" },
-                            { value: "evening", label: "شام (Evening)" },
-                            { value: "night", label: "رات (Night)" },
+                            { value: "morning", label: "صبح" },
+                            { value: "afternoon", label: "دوپہر" },
+                            { value: "evening", label: "شام " },
+                            { value: "night", label: "رات " },
                             {
                               value: "morning_evening",
-                              label: "صبح، شام (Morning & Evening)",
+                              label: "صبح، شام ",
                             },
                             {
                               value: "morning_night",
-                              label: "صبح، رات (Morning & Night)",
+                              label: "صبح، رات ",
                             },
                             {
                               value: "afternoon_evening",
-                              label: "دوپہر، شام (Afternoon & Evening)",
+                              label: "دوپہر، شام ",
                             },
                             {
                               value: "afternoon_night",
-                              label: "دوپہر، رات (Afternoon & Night)",
+                              label: "دوپہر، رات ",
                             },
                             {
                               value: "morning_evening_night",
-                              label: "صبح، شام، رات (Morning, Evening & Night)",
+                              label: "صبح، شام، رات ",
                             },
                             {
                               value: "morning_afternoon_evening",
                               label:
-                                "صبح، دوپہر، شام (Morning, Afternoon & Evening)",
+                                "صبح، دوپہر، شام ",
+                            },
+                            {
+                              value: "as_needed",
+                              label: "حسب ضرورت",
                             },
                             {
                               value: "morning_afternoon_night",
                               label:
-                                "صبح، دوپہر، رات (Morning, Afternoon & Night)",
+                                "صبح، دوپہر، رات ",
                             },
                             {
                               value: "afternoon_evening_night",
                               label:
-                                "دوپہر، شام، رات (Afternoon, Evening & Night)",
+                                "دوپہر، شام، رات ",
                             },
                             {
                               value: "early_morning",
-                              label: "صبح سویرے (Early Morning)",
+                              label: "صبح سویرے ",
                             },
                             {
                               value: "late_morning",
-                              label: "دیر صبح (Late Morning)",
+                              label: "دیر صبح ",
                             },
                             {
                               value: "late_afternoon",
-                              label: "دیر دوپہر (Late Afternoon)",
+                              label: "دیر دوپہر ",
                             },
-                            { value: "sunset", label: "غروب آفتاب (Sunset)" },
-                            { value: "midnight", label: "آدھی رات (Midnight)" },
+                            { value: "sunset", label: "غروب آفتاب " },
+                            { value: "midnight", label: "آدھی رات " },
                             {
                               value: "late_night",
-                              label: "رات دیر گئے (Late Night)",
+                              label: "رات دیر گئے ",
                             },
                             {
                               value: "morning_afternoon",
-                              label: "صبح، دوپہر (Morning & Afternoon)",
+                              label: "صبح، دوپہر ",
                             },
                             {
                               value: "evening_night",
-                              label: "شام، رات (Evening & Night)",
+                              label: "شام، رات ",
                             },
                             {
                               value: "early_morning_night",
-                              label: "صبح سویرے، رات (Early Morning & Night)",
+                              label: "صبح سویرے، رات ",
                             },
                             {
                               value: "morning_late_afternoon",
                               label:
-                                "صبح، دیر دوپہر (Morning & Late Afternoon)",
+                                "صبح، دیر دوپہر ",
                             },
                             {
                               value: "afternoon_sunset",
-                              label: "دوپہر، غروب آفتاب (Afternoon & Sunset)",
+                              label: "دوپہر، غروب آفتاب ",
                             },
-                            { value: "all_day", label: "پورا دن (All Day)" },
+                            { value: "all_day", label: "پورا دن " },
                             {
                               value: "all_night",
-                              label: "پوری رات (All Night)",
+                              label: "پوری رات ",
                             },
                             {
                               value: "24_hours",
-                              label: "چوبیس گھنٹے (24 Hours)",
+                              label: "چوبیس گھنٹے ",
                             },
                           ]}
                           value={{
@@ -2771,146 +2756,146 @@ before:opacity-50 before:-z-10"
                               value: "0.75",
                               label: "تین چوتھائی گولی (3/4 گولی)",
                             },
-                            { value: "1", label: "ایک گولی (1 گولی)" },
-                            { value: "1.5", label: "ڈیڑھ گولی (1.5 گولی)" },
-                            { value: "2", label: "دو گولیاں (2 گولیاں)" },
+                            { value: "1", label: "ایک گولی" },
+                            { value: "1.5", label: "ڈیڑھ گولی " },
+                            { value: "2", label: "دو گولیاں " },
                             {
                               value: "2.5",
-                              label: "ڈھائی گولیاں (2.5 گولیاں)",
+                              label: "ڈھائی گولیاں",
                             },
-                            { value: "3", label: "تین گولیاں (3 گولیاں)" },
+                            { value: "3", label: "تین گولیاں " },
                             {
                               value: "3.5",
-                              label: "ساڑھے تین گولیاں (3.5 گولیاں)",
+                              label: "ساڑھے تین گولیاں ",
                             },
-                            { value: "4", label: "چار گولیاں (4 گولیاں)" },
-                            { value: "5", label: "پانچ گولیاں (5 گولیاں)" },
-                            { value: "6", label: "چھ گولیاں (6 گولیاں)" },
-                            { value: "7", label: "سات گولیاں (7 گولیاں)" },
-                            { value: "8", label: "آٹھ گولیاں (8 گولیاں)" },
-                            { value: "10", label: "دس گولیاں (10 گولیاں)" },
+                            { value: "4", label: "چار گولیاں " },
+                            { value: "5", label: "پانچ گولیاں" },
+                            { value: "6", label: "چھ گولیاں " },
+                            { value: "7", label: "سات گولیاں " },
+                            { value: "8", label: "آٹھ گولیاں " },
+                            { value: "10", label: "دس گولیاں " },
 
                             // Spoon Dosages
                             {
                               value: "half_spoon",
-                              label: "آدھا چمچ (1/2 چمچ)",
+                              label: "آدھا چمچ ",
                             },
-                            { value: "one_spoon", label: "ایک چمچ (1 چمچ)" },
+                            { value: "one_spoon", label: "ایک چمچ" },
                             {
                               value: "one_and_half_spoon",
-                              label: "ڈیڑھ چمچ (1.5 چمچ)",
+                              label: "ڈیڑھ چمچ ",
                             },
-                            { value: "two_spoons", label: "دو چمچ (2 چمچ)" },
-                            { value: "three_spoons", label: "تین چمچ (3 چمچ)" },
+                            { value: "two_spoons", label: "دو چمچ" },
+                            { value: "three_spoons", label: "تین چمچ " },
 
                             // Liquid Dosages (Milliliters)
                             {
                               value: "2.5_ml",
-                              label: "ڈھائی ملی لیٹر (2.5 ml)",
+                              label: "ڈھائی ملی لیٹر ",
                             },
-                            { value: "5_ml", label: "پانچ ملی لیٹر (5 ml)" },
+                            { value: "5_ml", label: "پانچ ملی لیٹر " },
                             {
                               value: "7.5_ml",
-                              label: "ساڑھے سات ملی لیٹر (7.5 ml)",
+                              label: "ساڑھے سات ملی لیٹر ",
                             },
-                            { value: "10_ml", label: "دس ملی لیٹر (10 ml)" },
-                            { value: "15_ml", label: "پندرہ ملی لیٹر (15 ml)" },
-                            { value: "20_ml", label: "بیس ملی لیٹر (20 ml)" },
-                            { value: "25_ml", label: "پچیس ملی لیٹر (25 ml)" },
-                            { value: "30_ml", label: "تیس ملی لیٹر (30 ml)" },
+                            { value: "10_ml", label: "دس ملی لیٹر " },
+                            { value: "15_ml", label: "پندرہ ملی لیٹر " },
+                            { value: "20_ml", label: "بیس ملی لیٹر " },
+                            { value: "25_ml", label: "پچیس ملی لیٹر " },
+                            { value: "30_ml", label: "تیس ملی لیٹر " },
 
                             // Droplet Dosages
                             {
                               value: "one_droplet",
-                              label: "ایک قطرہ (1 قطرہ)",
+                              label: "ایک قطرہ ",
                             },
                             {
                               value: "two_droplets",
-                              label: "دو قطرے (2 قطرے)",
+                              label: "دو قطرے ",
                             },
                             {
                               value: "three_droplets",
-                              label: "تین قطرے (3 قطرے)",
+                              label: "تین قطرے ",
                             },
                             {
                               value: "five_droplets",
-                              label: "پانچ قطرے (5 قطرے)",
+                              label: "پانچ قطرے ",
                             },
                             {
                               value: "ten_droplets",
-                              label: "دس قطرے (10 قطرے)",
+                              label: "دس قطرے ",
                             },
 
                             // Injection Dosages
                             {
                               value: "half_injection",
-                              label: "آدھا ٹیکہ (1/2 ٹیکہ)",
+                              label: "آدھا ٹیکہ ",
                             },
                             {
                               value: "one_injection",
-                              label: "ایک ٹیکہ (1 ٹیکہ)",
+                              label: "ایک ٹیکہ ",
                             },
                             {
                               value: "two_injections",
-                              label: "دو ٹیکے (2 ٹیکے)",
+                              label: "دو ٹیکے ",
                             },
                             {
                               value: "three_injections",
-                              label: "تین ٹیکے (3 ٹیکے)",
+                              label: "تین ٹیکے ",
                             },
 
                             // Sachet Dosages
                             {
                               value: "half_sachet",
-                              label: "آدھا ساشے (1/2 ساشے)",
+                              label: "آدھا ساشے ",
                             },
-                            { value: "one_sachet", label: "ایک ساشے (1 ساشے)" },
-                            { value: "two_sachets", label: "دو ساشے (2 ساشے)" },
+                            { value: "one_sachet", label: "ایک ساشے " },
+                            { value: "two_sachets", label: "دو ساشے " },
                             {
                               value: "three_sachets",
-                              label: "تین ساشے (3 ساشے)",
+                              label: "تین ساشے ",
                             },
 
                             // Special Cases
                             {
                               value: "as_needed",
-                              label: "ضرورت کے مطابق (As Needed)",
+                              label: "ضرورت کے مطابق ",
                             },
                             {
                               value: "before_meal",
-                              label: "کھانے سے پہلے (Before Meal)",
+                              label: "کھانے سے پہلے ",
                             },
                             {
                               value: "after_meal",
-                              label: "کھانے کے بعد (After Meal)",
+                              label: "کھانے کے بعد ",
                             },
                             {
                               value: "every_6_hours",
-                              label: "ہر 6 گھنٹے بعد (Every 6 Hours)",
+                              label: "ہر 6 گھنٹے بعد ",
                             },
                             {
                               value: "every_8_hours",
-                              label: "ہر 8 گھنٹے بعد (Every 8 Hours)",
+                              label: "ہر 8 گھنٹے بعد ",
                             },
                             {
                               value: "every_12_hours",
-                              label: "ہر 12 گھنٹے بعد (Every 12 Hours)",
+                              label: "ہر 12 گھنٹے بعد ",
                             },
                             {
                               value: "once_a_day",
-                              label: "دن میں ایک بار (Once a Day)",
+                              label: "دن میں ایک بار ",
                             },
                             {
                               value: "twice_a_day",
-                              label: "دن میں دو بار (Twice a Day)",
+                              label: "دن میں دو بار ",
                             },
                             {
                               value: "three_times_a_day",
-                              label: "دن میں تین بار (Three Times a Day)",
+                              label: "دن میں تین بار ",
                             },
                             {
                               value: "four_times_a_day",
-                              label: "دن میں چار بار (Four Times a Day)",
+                              label: "دن میں چار بار ",
                             },
                           ]}
                           className="react-select-container"
@@ -2969,11 +2954,11 @@ before:opacity-50 before:-z-10"
                             { value: "1_week", label: "1 ہفتہ" },
                             { value: "2_weeks", label: "2 ہفتے" },
                             { value: "3_weeks", label: "3 ہفتے" },
-                            { value: "4_weeks", label: "4 ہفتے (1 مہینہ)" },
+                            { value: "4_weeks", label: "  1 مہینہ" },
                             { value: "6_weeks", label: "6 ہفتے" },
-                            { value: "8_weeks", label: "8 ہفتے (2 مہینے)" },
+                            { value: "8_weeks", label: "  2 مہینے" },
                             { value: "10_weeks", label: "10 ہفتے" },
-                            { value: "12_weeks", label: "12 ہفتے (3 مہینے)" },
+                            { value: "12_weeks", label: "  3 مہینے" },
 
                             // Months (1-12)
                             { value: "1_month", label: "1 مہینہ" },
@@ -2981,9 +2966,9 @@ before:opacity-50 before:-z-10"
                             { value: "3_months", label: "3 مہینے" },
                             { value: "4_months", label: "4 مہینے" },
                             { value: "5_months", label: "5 مہینے" },
-                            { value: "6_months", label: "6 مہینے (نصف سال)" },
+                            { value: "6_months", label: "6 مہینے " },
                             { value: "9_months", label: "9 مہینے" },
-                            { value: "12_months", label: "12 مہینے (1 سال)" },
+                            { value: "12_months", label: "12 مہینے " },
 
                             // Special Cases
                             { value: "as_needed", label: "ضرورت کے مطابق" },
