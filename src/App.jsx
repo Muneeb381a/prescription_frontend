@@ -3299,11 +3299,18 @@ before:opacity-50 before:-z-10"
                     required
                   >
                     <option value="">مدت منتخب کریں</option>
-                    <option value="10">10 دن بعد (10 Days)</option>
-                    <option value="15">15 دن بعد (15 Days)</option>
-                    <option value="30">ایک مہینہ بعد (1 Month)</option>
-                    <option value="45">ڈیڑھ مہینہ بعد (1.5 Months)</option>
-                    <option value="60">دو مہینے بعد (2 Months)</option>
+                    <option value="7">ایک ہفتہ بعد </option>
+                    <option value="10">10 دن بعد </option>
+                    <option value="15">15 دن بعد </option>
+                    <option value="21">3 ہفتے بعد </option>
+                    <option value="30">ایک مہینہ بعد </option>
+                    <option value="45">ڈیڑھ مہینہ بعد </option>
+                    <option value="60">دو مہینے بعد </option>
+                    <option value="90">تین مہینے بعد </option>
+                    <option value="120">چار مہینے بعد </option>
+                    <option value="180">چھ مہینے بعد </option>
+                    <option value="365">ایک سال بعد </option>
+                    <option value="0">فالو اپ نہیں </option>
                   </select>
                 </div>
 
