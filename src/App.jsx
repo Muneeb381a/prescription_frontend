@@ -494,8 +494,12 @@ const PatientSearch = () => {
                       { label: "Muscle Tone", key: "muscle_tone" },
                       { label: "Muscle Strength", key: "muscle_strength" },
                       {
-                        label: "Straight Leg Test",
-                        key: "straight_leg_raise_test",
+                        label: "SLR Left",
+                        key: "straight_leg_raise_left",
+                      },
+                      {
+                        label: "SLR Right",
+                        key: "straight_leg_raise_right",
                       },
                       { label: "Reflexes", key: "deep_tendon_reflexes" },
                       { label: "Gait", key: "gait_assessment" },
