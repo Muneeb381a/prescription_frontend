@@ -303,7 +303,7 @@ const PatientSearch = () => {
 
            .medicine-table th:first-child {
               text-align: left;
-              font-family: 'Roboto', sans-serif; 
+              font-family: 'Noto Nastaliq Urdu', serif;
               font-size: 11px;
             }
 
@@ -373,7 +373,11 @@ const PatientSearch = () => {
                 vertical-align: middle;
                 padding: 8px;
               }
-  
+              .patient-name {
+                font-size: 14px; 
+                font-weight: bold;
+              }
+
             @media print {
             .medicine-table td {
               font-size: 11px;
@@ -394,11 +398,14 @@ const PatientSearch = () => {
           <table class="patient-table">
             <tbody>
               <tr>
-                <td><strong>Name:</strong> ${patient?.name || "-"}</td>
-                <td><strong>Mobile:</strong> ${patient?.mobile || "-"}</td>
+               <td class="name">
+                  <strong>Name:</strong>
+                  <span class="patient-name">${patient?.name || "-"}</span>
+                </td>
                 <td><strong>Age/Sex:</strong> ${patient?.age || "-"}/${
-      patient?.gender || "-"
-    }</td>
+                  patient?.gender || "-"
+                }</td>
+                <td><strong>Mobile:</strong> ${patient?.mobile || "-"}</td>
               </tr>
             </tbody>
           </table>
@@ -409,9 +416,9 @@ const PatientSearch = () => {
               <table class="medicine-table">
                 <thead>
                   <tr>
-                    <th class="center-th">Medicine</th>
-                    <th class="urdu-date center-th">روزانہ کتنی بار</th>
-                    <th class="urdu-date center-th">خوراک</th>
+                    <th class="urdu-date center-th">ادویات </th>
+                    <th class="urdu-date center-th">اوقات</th>
+                    <th class="urdu-date center-th">تعداد</th>
                     <th class="urdu-date center-th">مدت</th>
                     <th class="urdu-date center-th">طریقہ کار</th>
                   </tr>
