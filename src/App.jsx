@@ -2084,67 +2084,7 @@ before:opacity-50 before:-z-10"
             </div>
 
             {/* Symptoms Section */}
-            {/* <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
-              <div className="flex items-center gap-3 mb-5 border-b border-gray-200 pb-4">
-                <div className="bg-orange-700 p-2.5 rounded-lg text-white shadow-sm">
-                  <svg
-                    className="w-6 h-6"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                    ></path>
-                  </svg>
-                </div>
-                <div>
-                  <h3 className="text-lg font-semibold text-gray-800">
-                    Symptom Analysis
-                  </h3>
-                  <p className="text-sm text-gray-600">
-                    Select observed symptoms or add new ones
-                  </p>
-                </div>
-              </div>
-
-              <CreatableSelect
-                isMulti
-                options={symptoms}
-                value={selectedSymptoms}
-                onChange={setSelectedSymptoms}
-                placeholder="Select or type symptoms..."
-                classNamePrefix="react-select"
-                isClearable
-                onCreateOption={handleCreateSymptom}
-                isLoading={isFetchingSymptoms}
-                formatCreateLabel={(inputValue) => `Create "${inputValue}"`}
-                styles={{
-                  control: (base) => ({
-                    ...base,
-                    border: "2px solid #e5e7eb",
-                    borderRadius: "0.75rem",
-                    padding: "8px 12px",
-                    boxShadow: "none",
-                    "&:hover": { borderColor: "#3b82f6" },
-                  }),
-                  multiValue: (base) => ({
-                    ...base,
-                    backgroundColor: "#eff6ff",
-                    borderRadius: "6px",
-                  }),
-                  multiValueLabel: (base) => ({
-                    ...base,
-                    color: "#1d4ed8",
-                    fontWeight: "500",
-                  }),
-                }}
-              />
-            </div> */}
-
+            
             <div className="bg-white p-7 rounded-2xl border border-gray-100 shadow-lg hover:shadow-xl transition-shadow duration-200">
               <div className="flex items-center gap-4 mb-6 pb-4 border-b border-gray-100">
                 <div className="bg-orange-600 p-3 rounded-xl text-white shadow-md hover:scale-105 transition-transform duration-200">
@@ -2635,54 +2575,6 @@ before:opacity-50 before:-z-10"
             </div>
 
             {/* test sections */}
-            {/* <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
-              <div className="flex items-center gap-3 mb-5 border-b border-gray-200 pb-4">
-                <div className="bg-orange-900 p-2.5 rounded-lg text-white shadow-sm">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    className="w-6 h-6 text-white"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"
-                    />
-                  </svg>
-                </div>
-                <div>
-                  <h3 className="text-lg font-semibold text-gray-800">
-                    Add Tests
-                  </h3>
-                  <p className="text-sm text-gray-600">Prescribed Tests</p>
-                </div>
-              </div>
-
-              <CreatableSelect
-                isMulti
-                options={tests.map((test) => ({
-                  value: test.test_name,
-                  label: test.test_name,
-                }))}
-                value={selectedTests.map((test) => ({
-                  value: test,
-                  label: test,
-                }))}
-                onChange={(newTests) =>
-                  setSelectedTests(newTests.map((t) => t.value))
-                }
-                onCreateOption={(newTestName) => {
-                  setSelectedTests([...selectedTests, newTestName]);
-                }}
-                placeholder="Type or select a test..."
-                className="react-select-container"
-                classNamePrefix="react-select"
-              />
-            </div> */}
-
             <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-lg hover:shadow-xl transition-shadow duration-200">
               <div className="flex items-center gap-4 mb-6 pb-4 border-b border-gray-100">
                 <div className="bg-orange-600 p-3 rounded-xl text-white shadow-md hover:shadow-lg transition-shadow duration-200">
@@ -2963,6 +2855,7 @@ before:opacity-50 before:-z-10"
                               label: "ایک چوتھائی گولی ",
                             },
                             { value: "0.5", label: "آدھی گولی " },
+                            { value: "headache_severe", label: "شدید سر درد کے لیے" },
                             {
                               value: "0.75",
                               label: "تین چوتھائی گولی ",
