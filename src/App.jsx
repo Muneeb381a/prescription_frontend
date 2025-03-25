@@ -294,20 +294,42 @@ const PatientSearch = () => {
   
             .medicine-table th {
               padding: 1mm 1mm;
-              text-align: left;
               font-weight: 600;
               font-size: 11px;
               background: #eff6ff;
               border-bottom: 2px solid #1e40af;
+              vertical-align: middle;
             }
+
+           .medicine-table th:first-child {
+              text-align: left;
+              font-family: 'Roboto', sans-serif; 
+              font-size: 11px;
+            }
+
+
+              .medicine-table th:not(:first-child) {
+                text-align: center;
+                 font-family: 'Noto Nastaliq Urdu', serif;
+              }
+
   
             .medicine-table td {
               padding: 1mm 1mm;
               border-bottom: 1px solid #e5e7eb;
               font-size: 10px;
+              vertical-align: middle;
+            }
+
+            .medicine-table td:first-child {
+              text-align: left;
+              font-family: 'Roboto', sans-serif;
+              font-weight: 600;
+            }
+            .medicine-table td:not(:first-child) {
+              text-align: center;
               font-family: 'Noto Nastaliq Urdu', serif;
             }
-  
             .clinical-section {
               margin-bottom: 0.5mm;
               padding: 1mm;
@@ -337,8 +359,25 @@ const PatientSearch = () => {
               .notes {
                 font-size: 13px;
               }
+
+              .urdu-dates {
+                text-align: center;
+                vertical-align: middle;
+                font-family: 'Noto Nastaliq Urdu', serif;
+                font-size: 0.8rem;
+                padding: 8px;
+              }
+
+              .center-th {
+                text-align: center;
+                vertical-align: middle;
+                padding: 8px;
+              }
   
             @media print {
+            .medicine-table td {
+              font-size: 11px;
+             }
               @page {
                 margin: 0 !important;
               }
@@ -370,10 +409,11 @@ const PatientSearch = () => {
               <table class="medicine-table">
                 <thead>
                   <tr>
-                    <th style="width: 35%">Medicine</th>
-                    <th style="width: 25%" class="urdu-date">روزانہ کتنی بار</th>
-                    <th style="width: 15%" class="urdu-date">خوراک</th>
-                    <th style="width: 20%" class="urdu-date">مدت</th>
+                    <th class="center-th">Medicine</th>
+                    <th class="urdu-date center-th">روزانہ کتنی بار</th>
+                    <th class="urdu-date center-th">خوراک</th>
+                    <th class="urdu-date center-th">مدت</th>
+                    <th class="urdu-date center-th">طریقہ کار</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -388,6 +428,7 @@ const PatientSearch = () => {
                           <td>${med.frequency_urdu || "-"}</td>
                           <td>${med.dosage_urdu || "-"}</td>
                           <td>${med.duration_urdu || "-"}</td>
+                          <td>${med.instructions_urdu || "-"}</td>
                         </tr>
                       `;
                     })
