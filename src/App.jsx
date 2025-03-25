@@ -323,6 +323,9 @@ const PatientSearch = () => {
               direction: rtl;
               color: #4b5563;
             }
+              .notes {
+                font-size: 13px;
+              }
   
             @media print {
               @page {
@@ -603,7 +606,7 @@ const PatientSearch = () => {
                     کو دوبارہ تشریف لائیں
                   </span>
                 </div>
-                <div><strong>Notes:</strong> ${followUpNotes || "-"}</div>
+                <div class="notes"><strong>Notes:</strong> ${followUpNotes || "-"}</div>
               </div>
             </div>
           `

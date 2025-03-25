@@ -50,7 +50,6 @@ const PatientHistory = ({ patientId }) => {
         `https://patient-management-backend-nine.vercel.app/api/patient-history/${patientId}`,
         { timeout: 10000 }
       );
-      
 
       if (!Array.isArray(response.data)) {
         setHistory([response.data]);
@@ -258,7 +257,8 @@ const PatientHistory = ({ patientId }) => {
                                     Treatment Plan
                                   </label>
                                   <p className="mt-2 text-gray-900">
-                                    {record.neuro_treatment_plan || "Not specified"}
+                                    {record.neuro_treatment_plan ||
+                                      "Not specified"}
                                   </p>
                                 </div>
                               </div>
@@ -271,7 +271,7 @@ const PatientHistory = ({ patientId }) => {
                                     <FaFlask className="text-xl text-blue-600" />
                                   </div>
                                   <h4 className="text-lg font-semibold text-gray-900">
-                                   Tests
+                                    Tests
                                   </h4>
                                 </div>
 
@@ -318,7 +318,6 @@ const PatientHistory = ({ patientId }) => {
                                         className="bg-white p-4 border-b border-gray-100 transition-all min-w-[300px]"
                                       >
                                         <div className="flex flex-col gap-3">
-
                                           {/* Vital Signs - Single Row */}
                                           <div className="flex gap-2">
                                             {/* Blood Pressure */}
@@ -393,7 +392,7 @@ const PatientHistory = ({ patientId }) => {
                                                   Fall Assesment
                                                 </p>
                                                 <p className="text-lg font-bold text-gray-900">
-                                                  {vital.fall_assessment }
+                                                  {vital.fall_assessment}
                                                 </p>
                                               </div>
                                             </div>
@@ -470,6 +469,8 @@ const PatientHistory = ({ patientId }) => {
                               record.vibration_sense ||
                               record.romberg_test ||
                               record.gait_assessment ||
+                              record.straight_leg_raise_left ||
+                              record.straight_leg_raise_right ||
                               record.tremors ||
                               record.speech_assessment) && (
                               <div className="mt-6 pt-4 border-t border-gray-100">
@@ -515,13 +516,15 @@ const PatientHistory = ({ patientId }) => {
                                     </div>
                                   )}
 
-                                  {/* Motor Function */}
+                                  {/* Motor Function Assessment */}
                                   {(record.motor_function ||
                                     record.muscle_strength ||
-                                    record.muscle_tone) && (
+                                    record.muscle_tone ||
+                                    record.coordination ||
+                                    record.tremors) && (
                                     <div className="bg-green-50 p-4 rounded-lg">
                                       <h5 className="font-medium text-green-800 mb-2">
-                                        Motor Function
+                                        Motor Function Assessment
                                       </h5>
                                       <div className="space-y-2">
                                         {record.motor_function && (
@@ -554,24 +557,44 @@ const PatientHistory = ({ patientId }) => {
                                             </span>
                                           </div>
                                         )}
+                                        {record.coordination && (
+                                          <div className="flex justify-between">
+                                            <span className="text-gray-600">
+                                              Coordination:
+                                            </span>
+                                            <span className="font-medium text-gray-800">
+                                              {record.coordination}
+                                            </span>
+                                          </div>
+                                        )}
+                                        {record.tremors && (
+                                          <div className="flex justify-between">
+                                            <span className="text-gray-600">
+                                              Tremors:
+                                            </span>
+                                            <span className="font-medium text-gray-800">
+                                              {record.tremors}
+                                            </span>
+                                          </div>
+                                        )}
                                       </div>
                                     </div>
                                   )}
 
-                                  {/* Sensory Examination */}
+                                  {/* Sensory Testing */}
                                   {(record.sensory_examination ||
                                     record.pain_sensation ||
                                     record.proprioception ||
                                     record.vibration_sense) && (
                                     <div className="bg-purple-50 p-4 rounded-lg">
                                       <h5 className="font-medium text-purple-800 mb-2">
-                                        Sensory Examination
+                                        Sensory Testing
                                       </h5>
                                       <div className="space-y-2">
                                         {record.sensory_examination && (
                                           <div className="flex justify-between">
                                             <span className="text-gray-600">
-                                              Sensory Exam:
+                                              Sensory Examination:
                                             </span>
                                             <span className="font-medium text-gray-800">
                                               {record.sensory_examination}
@@ -583,16 +606,8 @@ const PatientHistory = ({ patientId }) => {
                                             <span className="text-gray-600">
                                               Pain Sensation:
                                             </span>
-                                            <span
-                                              className={`badge ${
-                                                record.pain_sensation
-                                                  ? "bg-green-100 text-green-800"
-                                                  : "bg-red-100 text-red-800"
-                                              }`}
-                                            >
-                                              {record.pain_sensation
-                                                ? "Present"
-                                                : "Absent"}
+                                            <span className="font-medium text-gray-800">
+                                              {record.pain_sensation}
                                             </span>
                                           </div>
                                         )}
@@ -601,16 +616,8 @@ const PatientHistory = ({ patientId }) => {
                                             <span className="text-gray-600">
                                               Proprioception:
                                             </span>
-                                            <span
-                                              className={`badge ${
-                                                record.proprioception
-                                                  ? "bg-green-100 text-green-800"
-                                                  : "bg-red-100 text-red-800"
-                                              }`}
-                                            >
-                                              {record.proprioception
-                                                ? "Intact"
-                                                : "Impaired"}
+                                            <span className="font-medium text-gray-800">
+                                              {record.proprioception}
                                             </span>
                                           </div>
                                         )}
@@ -619,16 +626,8 @@ const PatientHistory = ({ patientId }) => {
                                             <span className="text-gray-600">
                                               Vibration Sense:
                                             </span>
-                                            <span
-                                              className={`badge ${
-                                                record.vibration_sense
-                                                  ? "bg-green-100 text-green-800"
-                                                  : "bg-red-100 text-red-800"
-                                              }`}
-                                            >
-                                              {record.vibration_sense
-                                                ? "Present"
-                                                : "Absent"}
+                                            <span className="font-medium text-gray-800">
+                                              {record.vibration_sense}
                                             </span>
                                           </div>
                                         )}
@@ -636,26 +635,16 @@ const PatientHistory = ({ patientId }) => {
                                     </div>
                                   )}
 
-                                  {/* Coordination & Gait */}
-                                  {(record.coordination ||
-                                    record.romberg_test ||
+                                  {/* Special Tests */}
+                                  {(record.romberg_test ||
                                     record.gait_assessment ||
-                                    record.tremors) && (
-                                    <div className="bg-amber-50 p-4 rounded-lg">
-                                      <h5 className="font-medium text-amber-800 mb-2">
-                                        Coordination & Gait
+                                    record.straight_leg_raise_left ||
+                                    record.straight_leg_raise_right) && (
+                                    <div className="bg-orange-50 p-4 rounded-lg">
+                                      <h5 className="font-medium text-orange-800 mb-2">
+                                        Special Tests
                                       </h5>
                                       <div className="space-y-2">
-                                        {record.coordination && (
-                                          <div className="flex justify-between">
-                                            <span className="text-gray-600">
-                                              Coordination:
-                                            </span>
-                                            <span className="font-medium text-gray-800">
-                                              {record.coordination}
-                                            </span>
-                                          </div>
-                                        )}
                                         {record.romberg_test && (
                                           <div className="flex justify-between">
                                             <span className="text-gray-600">
@@ -676,41 +665,23 @@ const PatientHistory = ({ patientId }) => {
                                             </span>
                                           </div>
                                         )}
-                                        {record.mmse_score && (
+                                        {record.straight_leg_raise_left && (
                                           <div className="flex justify-between">
                                             <span className="text-gray-600">
-                                              MMSE Score:
+                                              Straight Leg Raise (L):
                                             </span>
                                             <span className="font-medium text-gray-800">
-                                              {record.mmse_score}
+                                              {record.straight_leg_raise_left}
                                             </span>
                                           </div>
                                         )}
-                                        {record.gcs_score && (
+                                        {record.straight_leg_raise_right && (
                                           <div className="flex justify-between">
                                             <span className="text-gray-600">
-                                              GCS Score:
+                                              Straight Leg Raise (R):
                                             </span>
                                             <span className="font-medium text-gray-800">
-                                              {record.gcs_score}
-                                            </span>
-                                          </div>
-                                        )}
-                                        {record.tremors && (
-                                          <div className="flex justify-between">
-                                            <span className="text-gray-600">
-                                              Tremors:
-                                            </span>
-                                            <span
-                                              className={`badge ${
-                                                record.tremors
-                                                  ? "bg-green-100 text-green-800"
-                                                  : "bg-red-100 text-red-800"
-                                              }`}
-                                            >
-                                              {record.tremors
-                                                ? "Present"
-                                                : "Absent"}
+                                              {record.straight_leg_raise_right}
                                             </span>
                                           </div>
                                         )}
