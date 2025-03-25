@@ -175,7 +175,9 @@ const PatientSearch = () => {
 
       const formattedMedicine = {
         value: newMedicine.id,
-        label: `${newMedicine.form} ${newMedicine.brand_name}${newMedicine.strength ? ` (${newMedicine.strength})` : ''}`,
+        label: `${newMedicine.form} ${newMedicine.brand_name}${
+          newMedicine.strength ? ` (${newMedicine.strength})` : ""
+        }`,
       };
 
       // Add new medicine to options
@@ -346,7 +348,9 @@ const PatientSearch = () => {
               <tr>
                 <td><strong>Name:</strong> ${patient?.name || "-"}</td>
                 <td><strong>Mobile:</strong> ${patient?.mobile || "-"}</td>
-                <td><strong>Age/Sex:</strong> ${patient?.age || "-"}/${patient?.gender || "-"}</td>
+                <td><strong>Age/Sex:</strong> ${patient?.age || "-"}/${
+      patient?.gender || "-"
+    }</td>
               </tr>
             </tbody>
           </table>
@@ -610,7 +614,9 @@ const PatientSearch = () => {
                     کو دوبارہ تشریف لائیں
                   </span>
                 </div>
-                <div class="notes"><strong>Notes:</strong> ${followUpNotes || "-"}</div>
+                <div class="notes"><strong>Notes:</strong> ${
+                  followUpNotes || "-"
+                }</div>
               </div>
             </div>
           `
@@ -1106,14 +1112,12 @@ const PatientSearch = () => {
   //   }
   // };
 
-
-
   // const submitConsultation = async () => {
   //   if (!patient) {
   //     alert("Please search for a patient first.");
   //     return;
   //   }
-  
+
   //   setLoading(true);
   //   try {
   //     // Step 1: Create Consultation
@@ -1122,13 +1126,13 @@ const PatientSearch = () => {
   //       { patient_id: patient.id, doctor_name: "Dr. Abdul Rauf" }
   //     );
   //     const consultationId = consultationRes.data.id;
-  
+
   //     // Step 2: Prepare Test Data and Create New Tests in Parallel
   //     const existingTestNames = new Set(tests.map((t) => t.test_name));
   //     const newTests = selectedTests.filter(
   //       (testName) => !existingTestNames.has(testName)
   //     );
-  
+
   //     const testCreationPromises = newTests.map((testName) =>
   //       axios.post(
   //         "https://patient-management-backend-nine.vercel.app/api/tests",
@@ -1138,17 +1142,17 @@ const PatientSearch = () => {
   //         }
   //       )
   //     );
-  
+
   //     const testCreationResults = await Promise.allSettled(testCreationPromises);
   //     const createdTests = testCreationResults
   //       .filter((result) => result.status === "fulfilled")
   //       .map((result) => result.value.data);
-  
+
   //     // Update local tests state with newly created tests
   //     if (createdTests.length > 0) {
   //       setTests((prevTests) => [...prevTests, ...createdTests]);
   //     }
-  
+
   //     // Map all selected tests to their IDs (existing + newly created)
   //     const testIds = selectedTests.map((testName) => {
   //       const test =
@@ -1156,7 +1160,7 @@ const PatientSearch = () => {
   //         createdTests.find((t) => t.test_name === testName);
   //       return test.id;
   //     });
-  
+
   //     // Step 3: Prepare Test Assignment Promises
   //     const testAssignmentPromises = testIds.map((testId) =>
   //       axios.post(
@@ -1167,10 +1171,10 @@ const PatientSearch = () => {
   //         }
   //       )
   //     );
-  
+
   //     // Step 4: Prepare API calls
   //     const apiCalls = [];
-  
+
   //     // ✅ Only send vitals if at least one field is filled
   //     const hasVitalValues = Object.values({
   //       pulse_rate: vitalSigns.pulseRate,
@@ -1179,7 +1183,7 @@ const PatientSearch = () => {
   //       spo2_level: vitalSigns.spo2,
   //       nihss_score: vitalSigns.nihss,
   //     }).some((value) => value !== "" && value !== null && value !== undefined);
-  
+
   //     if (hasVitalValues) {
   //       const vitalsData = {
   //         consultation_id: consultationId,
@@ -1191,7 +1195,7 @@ const PatientSearch = () => {
   //         nihss_score: vitalSigns.nihss ? Number(vitalSigns.nihss) : null,
   //         fall_assessment: vitalSigns.fall_assessment || "Done",
   //       };
-  
+
   //       apiCalls.push(
   //         axios.post(
   //           "https://patient-management-backend-nine.vercel.app/api/vitals",
@@ -1199,7 +1203,7 @@ const PatientSearch = () => {
   //         )
   //       );
   //     }
-  
+
   //     // Submit Symptoms
   //     apiCalls.push(
   //       axios.post(
@@ -1210,7 +1214,7 @@ const PatientSearch = () => {
   //         }
   //       )
   //     );
-  
+
   //     // Submit Medicines
   //     apiCalls.push(
   //       axios.post(
@@ -1232,10 +1236,10 @@ const PatientSearch = () => {
   //         }
   //       )
   //     );
-  
+
   //     // Add Test Assignments
   //     apiCalls.push(...testAssignmentPromises);
-  
+
   //     // Neuro Exam Submission
   //     const payload = {
   //       consultation_id: consultationId,
@@ -1259,16 +1263,16 @@ const PatientSearch = () => {
   //       mmse_score: neuroExamData.mmse_score || "",
   //       gcs_score: neuroExamData.gcs_score || "",
   //     };
-  
+
   //     console.log("🧠 Submitting neuro exam payload:", payload);
-  
+
   //     apiCalls.push(
   //       axios.post(
   //         "https://patient-management-backend-nine.vercel.app/api/examination",
   //         payload
   //       )
   //     );
-  
+
   //     // Follow-Up
   //     if (selectedDuration) {
   //       apiCalls.push(
@@ -1282,10 +1286,10 @@ const PatientSearch = () => {
   //         )
   //       );
   //     }
-  
+
   //     // Step 5: Execute All API Calls in Parallel
   //     const results = await Promise.allSettled(apiCalls);
-  
+
   //     // Check for failed requests
   //     const failedCalls = results.filter((r) => r.status === "rejected");
   //     if (failedCalls.length > 0) {
@@ -1295,13 +1299,13 @@ const PatientSearch = () => {
   //       );
   //       throw new Error("Partial submission failure");
   //     }
-  
+
   //     // Step 6: Success Handling
   //     toast.success("Consultation added successfully! 🎉", {
   //       position: "top-right",
   //       autoClose: 2000,
   //     });
-  
+
   //     // Reset state
   //     setVitalSigns({
   //       pulseRate: "",
@@ -1314,7 +1318,7 @@ const PatientSearch = () => {
   //     setFollowUpDate(null);
   //     setFollowUpNotes("");
   //     setSelectedDuration(null);
-  
+
   //     // Step 7: Print and Navigate
   //     handlePrint();
   //     setTimeout(() => {
@@ -1331,15 +1335,13 @@ const PatientSearch = () => {
   //     setLoading(false);
   //   }
   // };
-  
-  
 
   const submitConsultation = async () => {
     if (!patient) {
       alert("Please search for a patient first.");
       return;
     }
-  
+
     setLoading(true);
     try {
       // Step 1: Create Consultation
@@ -1348,45 +1350,56 @@ const PatientSearch = () => {
         { patient_id: patient.id, doctor_name: "Dr. Abdul Rauf" }
       );
       const consultationId = consultationRes.data.id;
-  
+
       // Step 2: Create New Tests if needed
       const existingTestNames = new Set(tests.map((t) => t.test_name));
       const newTests = selectedTests.filter(
         (testName) => !existingTestNames.has(testName)
       );
-  
+
       const testCreationPromises = newTests.map((testName) =>
-        axios.post("https://patient-management-backend-nine.vercel.app/api/tests", {
-          test_name: testName,
-          test_notes: "Optional test notes",
-        })
+        axios.post(
+          "https://patient-management-backend-nine.vercel.app/api/tests",
+          {
+            test_name: testName,
+            test_notes: "Optional test notes",
+          }
+        )
       );
-  
-      const testCreationResults = await Promise.allSettled(testCreationPromises);
+
+      const testCreationResults = await Promise.allSettled(
+        testCreationPromises
+      );
       const createdTests = testCreationResults
         .filter((r) => r.status === "fulfilled")
         .map((r) => r.value.data);
-  
+
       if (createdTests.length > 0) {
         setTests((prev) => [...prev, ...createdTests]);
       }
-  
-      const testIds = selectedTests.map((name) => {
-        const test = tests.find((t) => t.test_name === name) ||
-                     createdTests.find((t) => t.test_name === name);
-        return test?.id;
-      }).filter(Boolean);
-  
-      const testAssignmentPromises = testIds.map((testId) =>
-        axios.post("https://patient-management-backend-nine.vercel.app/api/tests/assign", {
-          test_id: testId,
-          consultation_id: consultationId,
+
+      const testIds = selectedTests
+        .map((name) => {
+          const test =
+            tests.find((t) => t.test_name === name) ||
+            createdTests.find((t) => t.test_name === name);
+          return test?.id;
         })
+        .filter(Boolean);
+
+      const testAssignmentPromises = testIds.map((testId) =>
+        axios.post(
+          "https://patient-management-backend-nine.vercel.app/api/tests/assign",
+          {
+            test_id: testId,
+            consultation_id: consultationId,
+          }
+        )
       );
-  
+
       // Step 3: Prepare API Calls
       const apiCalls = [];
-  
+
       // Vitals
       const hasVitalValues = Object.values({
         pulse_rate: vitalSigns.pulseRate,
@@ -1395,22 +1408,25 @@ const PatientSearch = () => {
         spo2_level: vitalSigns.spo2,
         nihss_score: vitalSigns.nihss,
       }).some((v) => v);
-  
+
       if (hasVitalValues) {
         apiCalls.push(
-          axios.post("https://patient-management-backend-nine.vercel.app/api/vitals", {
-            consultation_id: consultationId,
-            patient_id: patient.id,
-            pulse_rate: Number(vitalSigns.pulseRate) || null,
-            blood_pressure: vitalSigns.bloodPressure || null,
-            temperature: Number(vitalSigns.temperature) || null,
-            spo2_level: Number(vitalSigns.spo2) || null,
-            nihss_score: Number(vitalSigns.nihss) || null,
-            fall_assessment: vitalSigns.fall_assessment || "Done",
-          })
+          axios.post(
+            "https://patient-management-backend-nine.vercel.app/api/vitals",
+            {
+              consultation_id: consultationId,
+              patient_id: patient.id,
+              pulse_rate: Number(vitalSigns.pulseRate) || null,
+              blood_pressure: vitalSigns.bloodPressure || null,
+              temperature: Number(vitalSigns.temperature) || null,
+              spo2_level: Number(vitalSigns.spo2) || null,
+              nihss_score: Number(vitalSigns.nihss) || null,
+              fall_assessment: vitalSigns.fall_assessment || "Done",
+            }
+          )
         );
       }
-  
+
       // Symptoms
       if (selectedSymptoms.length > 0) {
         apiCalls.push(
@@ -1423,7 +1439,7 @@ const PatientSearch = () => {
           )
         );
       }
-  
+
       // Medicines
       if (selectedMedicines.length > 0) {
         apiCalls.push(
@@ -1447,37 +1463,44 @@ const PatientSearch = () => {
           )
         );
       }
-  
+
       // Neuro Exam
       const neuroData = fields.reduce((acc, key) => {
         if (neuroExamData[key]?.trim()) acc[key] = neuroExamData[key];
         return acc;
       }, {});
-  
+
       const hasNeuroData = Object.keys(neuroData).length > 0;
-  
-      if (hasNeuroData || neuroExamData.diagnosis || neuroExamData.treatment_plan) {
+
+      if (
+        hasNeuroData ||
+        neuroExamData.diagnosis ||
+        neuroExamData.treatment_plan
+      ) {
         apiCalls.push(
-          axios.post("https://patient-management-backend-nine.vercel.app/api/examination", {
-            consultation_id: consultationId,
-            patient_id: patient.id,
-            ...neuroData,
-            diagnosis: neuroExamData.diagnosis || "",
-            treatment_plan: neuroExamData.treatment_plan || "",
-            pain_sensation: !!neuroExamData.pain_sensation,
-            vibration_sense: !!neuroExamData.vibration_sense,
-            proprioception: !!neuroExamData.proprioception,
-            temperature_sensation: !!neuroExamData.temperature_sensation,
-            brudzinski_sign: !!neuroExamData.brudzinski_sign,
-            kernig_sign: !!neuroExamData.kernig_sign,
-            facial_sensation: !!neuroExamData.facial_sensation,
-            swallowing_function: !!neuroExamData.swallowing_function,
-            mmse_score: neuroExamData.mmse_score || "",
-            gcs_score: neuroExamData.gcs_score || "",
-          })
+          axios.post(
+            "https://patient-management-backend-nine.vercel.app/api/examination",
+            {
+              consultation_id: consultationId,
+              patient_id: patient.id,
+              ...neuroData,
+              diagnosis: neuroExamData.diagnosis || "",
+              treatment_plan: neuroExamData.treatment_plan || "",
+              pain_sensation: !!neuroExamData.pain_sensation,
+              vibration_sense: !!neuroExamData.vibration_sense,
+              proprioception: !!neuroExamData.proprioception,
+              temperature_sensation: !!neuroExamData.temperature_sensation,
+              brudzinski_sign: !!neuroExamData.brudzinski_sign,
+              kernig_sign: !!neuroExamData.kernig_sign,
+              facial_sensation: !!neuroExamData.facial_sensation,
+              swallowing_function: !!neuroExamData.swallowing_function,
+              mmse_score: neuroExamData.mmse_score || "",
+              gcs_score: neuroExamData.gcs_score || "",
+            }
+          )
         );
       }
-  
+
       // Follow-Up
       if (selectedDuration && followUpDate) {
         apiCalls.push(
@@ -1491,25 +1514,28 @@ const PatientSearch = () => {
           )
         );
       }
-  
+
       // Test Assignments
       apiCalls.push(...testAssignmentPromises);
-  
+
       // Step 4: Execute All API Calls
       const results = await Promise.allSettled(apiCalls);
       const failedCalls = results.filter((r) => r.status === "rejected");
-  
+
       if (failedCalls.length > 0) {
-        console.error("Some API calls failed:", failedCalls.map((r) => r.reason));
+        console.error(
+          "Some API calls failed:",
+          failedCalls.map((r) => r.reason)
+        );
         throw new Error("Some parts of the form could not be submitted.");
       }
-  
+
       // Step 5: Success Handling
       toast.success("Consultation added successfully! 🎉", {
         position: "top-right",
         autoClose: 2000,
       });
-  
+
       // Reset state
       setVitalSigns({
         pulseRate: "",
@@ -1522,7 +1548,7 @@ const PatientSearch = () => {
       setFollowUpDate(null);
       setFollowUpNotes("");
       setSelectedDuration(null);
-  
+
       // Step 6: Print and navigate
       handlePrint();
       setTimeout(() => {
@@ -1530,13 +1556,16 @@ const PatientSearch = () => {
         window.location.reload();
       }, 1000);
     } catch (error) {
-      console.error("❌ Error submitting consultation:", error.response?.data || error.message);
+      console.error(
+        "❌ Error submitting consultation:",
+        error.response?.data || error.message
+      );
       alert("An error occurred while saving the consultation.");
     } finally {
       setLoading(false);
     }
   };
-  
+
   const MEDICINE_DEFAULTS = {
     Tablet: {
       dosage_en: "1",
@@ -2084,7 +2113,7 @@ before:opacity-50 before:-z-10"
             </div>
 
             {/* Symptoms Section */}
-            
+
             <div className="bg-white p-7 rounded-2xl border border-gray-100 shadow-lg hover:shadow-xl transition-shadow duration-200">
               <div className="flex items-center gap-4 mb-6 pb-4 border-b border-gray-100">
                 <div className="bg-orange-600 p-3 rounded-xl text-white shadow-md hover:scale-105 transition-transform duration-200">
@@ -2753,8 +2782,7 @@ before:opacity-50 before:-z-10"
                             },
                             {
                               value: "morning_afternoon_evening",
-                              label:
-                                "صبح، دوپہر، شام ",
+                              label: "صبح، دوپہر، شام ",
                             },
                             {
                               value: "as_needed",
@@ -2762,13 +2790,11 @@ before:opacity-50 before:-z-10"
                             },
                             {
                               value: "morning_afternoon_night",
-                              label:
-                                "صبح، دوپہر، رات ",
+                              label: "صبح، دوپہر، رات ",
                             },
                             {
                               value: "afternoon_evening_night",
-                              label:
-                                "دوپہر، شام، رات ",
+                              label: "دوپہر، شام، رات ",
                             },
                             {
                               value: "early_morning",
@@ -2802,8 +2828,7 @@ before:opacity-50 before:-z-10"
                             },
                             {
                               value: "morning_late_afternoon",
-                              label:
-                                "صبح، دیر دوپہر ",
+                              label: "صبح، دیر دوپہر ",
                             },
                             {
                               value: "afternoon_sunset",
@@ -2855,7 +2880,10 @@ before:opacity-50 before:-z-10"
                               label: "ایک چوتھائی گولی ",
                             },
                             { value: "0.5", label: "آدھی گولی " },
-                            { value: "headache_severe", label: "شدید سر درد کے لیے" },
+                            {
+                              value: "headache_severe",
+                              label: "شدید سر درد کے لیے",
+                            },
                             {
                               value: "0.75",
                               label: "تین چوتھائی گولی ",
@@ -3229,22 +3257,20 @@ before:opacity-50 before:-z-10"
                 Clinical Decisions
               </h4>
               <div className="space-y-2">
-  <label className="text-sm font-medium text-gray-700">
-    Diagnosis
-  </label>
-  <textarea
-    value={neuroExamData.diagnosis || ""}
-    onChange={(e) =>
-      setNeuroExamData((prev) => ({
-        ...prev,
-        diagnosis: e.target.value,
-      }))
-    }
-    className="w-full rounded-lg border-2 border-gray-100 p-3 h-32"
-    // Remove required
-  />
-</div>
-
+                <label className="text-sm font-medium text-gray-700">
+                  Diagnosis
+                </label>
+                <textarea
+                  value={neuroExamData.diagnosis || ""}
+                  onChange={(e) =>
+                    setNeuroExamData((prev) => ({
+                      ...prev,
+                      diagnosis: e.target.value,
+                    }))
+                  }
+                  className="w-full rounded-lg border-2 border-gray-100 p-3 h-32"
+                />
+              </div>
             </div>
             {/* followup */}
             <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm mt-6">
