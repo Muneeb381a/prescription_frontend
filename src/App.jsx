@@ -69,7 +69,8 @@ const fields = [
   "motor_function",
   "muscle_tone",
   "muscle_strength",
-  "straight_leg_raise_test",
+  "straight_leg_raise_left",
+  "straight_leg_raise_right",
   "deep_tendon_reflexes",
   "plantar_reflex",
   "pupillary_reaction",
@@ -2254,7 +2255,6 @@ before:opacity-50 before:-z-10"
                 ))}
 
                 {/* checkboxes */}
-                <div></div>
                 <div className="my-3 group">
                   <label
                     htmlFor="pain_sensation"
@@ -2953,12 +2953,12 @@ before:opacity-50 before:-z-10"
                             // Tablet Dosages (Fractions & Whole)
                             {
                               value: "0.25",
-                              label: "ایک چوتھائی گولی (1/4 گولی)",
+                              label: "ایک چوتھائی گولی ",
                             },
-                            { value: "0.5", label: "آدھی گولی (1/2 گولی)" },
+                            { value: "0.5", label: "آدھی گولی " },
                             {
                               value: "0.75",
-                              label: "تین چوتھائی گولی (3/4 گولی)",
+                              label: "تین چوتھائی گولی ",
                             },
                             { value: "1", label: "ایک گولی" },
                             { value: "1.5", label: "ڈیڑھ گولی " },
