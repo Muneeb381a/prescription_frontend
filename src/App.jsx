@@ -174,7 +174,7 @@ const PatientSearch = () => {
 
       const formattedMedicine = {
         value: newMedicine.id,
-        label: `${newMedicine.form} ${newMedicine.brand_name} (${newMedicine.strength})`,
+        label: `${newMedicine.form} ${newMedicine.brand_name}${newMedicine.strength ? ` (${newMedicine.strength})` : ''}`,
       };
 
       // Add new medicine to options
