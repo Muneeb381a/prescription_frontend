@@ -198,10 +198,17 @@ const PatientSearch = () => {
       ...base,
       borderColor: "#ccc",
       boxShadow: "none",
+      padding: "2px 2px", 
+      minHeight: "45px",
+      display: "flex",
+      alignItems: "center", // Vertically center text
       "&:hover": { borderColor: "#888" },
     }),
     option: (provided, state) => ({
       ...provided,
+      padding: "12px 15px",
+      display: "flex",
+      alignItems: "center", // Vertically center text in dropdown
       backgroundColor: state.isSelected ? "#4CAF50" : "#fff",
       color: state.isSelected ? "#fff" : "#333",
       "&:hover": {
@@ -209,6 +216,8 @@ const PatientSearch = () => {
       },
     }),
   };
+  
+  
 
   //
 
@@ -2848,7 +2857,7 @@ before:opacity-50 before:-z-10"
                             value: med.frequency_en,
                             label: med.frequency_urdu,
                           }}
-                          className="react-select-container"
+                          className="react-select-container font-urdu"
                           classNamePrefix="react-select"
                           onChange={(e) => {
                             setSelectedMedicines((prev) =>
@@ -3030,7 +3039,7 @@ before:opacity-50 before:-z-10"
                               label: "دن میں چار بار ",
                             },
                           ]}
-                          className="react-select-container"
+                          className="react-select-container font-urdu"
                           classNamePrefix="react-select"
                           value={{
                             value: selectedMedicines[index]?.dosage_en || "1",
@@ -3111,7 +3120,7 @@ before:opacity-50 before:-z-10"
                             value: med.duration_en,
                             label: med.duration_urdu,
                           }}
-                          className="react-select-container"
+                          className="react-select-container font-urdu"
                           classNamePrefix="react-select"
                           onChange={(e) => {
                             setSelectedMedicines((prev) =>
@@ -3189,7 +3198,7 @@ before:opacity-50 before:-z-10"
                             value: med.instructions_en,
                             label: med.instructions_urdu,
                           }}
-                          className="react-select-container"
+                          className="react-select-container font-urdu"
                           classNamePrefix="react-select"
                           onChange={(e) => {
                             setSelectedMedicines((prev) =>

@@ -5,7 +5,13 @@
 
 .font-urdu {
   font-family: 'Noto Nastaliq Urdu', serif;
-  font-size: 1.1rem;
+  font-size: 0.8rem; 
+  line-height: 1.8; 
+  direction: left;
+  text-align: left; 
+  color: #1f2937; 
+  word-spacing: 2px;
+  font-weight: 400; 
 }
 
 .react-select__option {
